@@ -11,10 +11,10 @@ const nextConfig = {
     ]
   },
   i18n: {
-    locales: ['en-GB', 'en-US', 'zh-TW'],
-    defaultLocale: 'en-GB',
-    // if this is false, the middleware will fall back to a locale that is either in the headers of the browser or cookies, 
-    localeDetection: false
+    locales: ['default', 'en-GB', 'en-US', 'zh-TW'],
+    defaultLocale: 'default',
+    // if this is false, the middleware will fall back to a locale that is either in the headers of the browser or cookies
+    localeDetection: true
   },
   trailingSlash: true
 };
