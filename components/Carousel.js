@@ -6,11 +6,11 @@ import Image from "next/image";
 export function Carousel({ carousel }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]);
 
-  useEffect(() => {
+/*   useEffect(() => {
     if (emblaApi) {
       console.log(emblaApi.slideNodes()); // Access API
     }
-  }, [emblaApi]);
+  }, [emblaApi]); */
 
   return (
     <div className="embla w-full h-full" ref={emblaRef}>

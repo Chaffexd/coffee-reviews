@@ -2,19 +2,23 @@ import ArticleCard from "@/components/ArticleCard";
 import { Carousel } from "@/components/Carousel";
 import RichText from "@/components/RichText";
 import { client } from "@/lib/contentful";
+import { useRouter } from "next/router";
 
 export default function Home({ landingPageProps }) {
   console.log("Landing Page entry =", landingPageProps);
+
+  const currentLocale = useRouter();
+  console.log("Current Locale =", currentLocale.locale);
 
   const { carousel, landingPageTitle, featuredArticles, pageInformation } =
     landingPageProps.fields;
 
   return (
     <section>
-      <h1 className="text-bold text-8xl italic mb-8">{landingPageTitle}</h1>
+      <h1 className="text-bold text-8xl italic mt-4 mb-12">{landingPageTitle}</h1>
       <Carousel carousel={carousel} />
       <div className="mt-8 w-full">
-        <h2 className="text-2xl text-bold">
+        <h2 className="text-3xl text-bold my-12">
           Some of our featured reviews and articles
         </h2>
         {featuredArticles.map((article) => (
