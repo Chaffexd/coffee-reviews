@@ -80,6 +80,11 @@ export async function getStaticProps({ locale, params }) {
   console.log("SLUG IN PARAMS =", params.reviewId);
   console.log("PARAMS =", params);
   console.log("LOCALE =", locale);
+
+  if (locale === 'default') {
+    locale = 'en-GB'
+  }
+  
   const { reviewId } = params;
   const reviewPage = await client.getEntries({
     content_type: "article",

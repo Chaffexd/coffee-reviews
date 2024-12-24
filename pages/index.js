@@ -27,6 +27,10 @@ export default function Home({ landingPageProps }) {
 }
 
 export async function getStaticProps({ locale }) {
+  if (locale === 'default') {
+    locale = 'en-GB'
+  }
+  
   const landingPage = await client.getEntries({
     content_type: "page",
     include: 5,
