@@ -11,9 +11,9 @@ const nextConfig = {
     ]
   },
   i18n: {
-    locales: ['default', 'en-GB', 'en-US', 'zh-TW'],
+    locales: ['default', 'en-GB', 'en-US', 'zh-Hant-TW'],
     defaultLocale: 'default',
-    // if this is false, the middleware will fall back to a locale that is either in the headers of the browser or cookies
+    // if this is false, the middleware will fall back to a locale that is either in the headers of the browser or cookies and defined in the accepted list above
     localeDetection: true
   },
   trailingSlash: true

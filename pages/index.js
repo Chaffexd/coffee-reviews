@@ -2,14 +2,8 @@ import ArticleCard from "@/components/ArticleCard";
 import { Carousel } from "@/components/Carousel";
 import RichText from "@/components/RichText";
 import { client } from "@/lib/contentful";
-import { useRouter } from "next/router";
 
 export default function Home({ landingPageProps }) {
-  console.log("Landing Page entry =", landingPageProps);
-
-  const currentLocale = useRouter();
-  console.log("Current Locale =", currentLocale.locale);
-
   const { carousel, landingPageTitle, featuredArticles, pageInformation } =
     landingPageProps.fields;
 
@@ -32,11 +26,12 @@ export default function Home({ landingPageProps }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getStaticProps({ locale }) {
   const landingPage = await client.getEntries({
     content_type: "page",
     include: 5,
     "fields.slug[match]": "/",
+    locale
   });
 
   const landingPageProps = landingPage.items[0];

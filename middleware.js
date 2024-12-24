@@ -1,3 +1,5 @@
+import { NextResponse } from "next/server";
+
 export async function middleware(req) {
   if (
     req.nextUrl.pathname.startsWith("/_next") ||
@@ -8,7 +10,7 @@ export async function middleware(req) {
 
   if (req.nextUrl.locale === "default") {
     return NextResponse.redirect(
-      new URL(`/en${req.nextUrl.pathname}`, req.url)
+      new URL(`/en-GB/`, req.url)
     );
   }
 }

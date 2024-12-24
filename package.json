@@ -11,12 +11,14 @@
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^16.0.1",
     "@contentful/rich-text-types": "^17.0.0",
+    "@vis.gl/react-google-maps": "^1.4.2",
     "contentful": "^11.3.3",
     "embla-carousel-autoplay": "^8.5.1",
     "embla-carousel-react": "^8.5.1",
     "next": "15.1.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-loading-indicators": "^1.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
