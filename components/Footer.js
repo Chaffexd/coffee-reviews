@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="w-full py-8 px-56 border-t-slate-150 border-t-2">
+    <footer className="w-full py-8 px-56 border-t-slate-150 border-t-2 max-w-screen-2xl m-auto">
       <ul className="flex justify-end">
         <Link href={"/"} className="mr-8 hover:underline">
           Coffee Review

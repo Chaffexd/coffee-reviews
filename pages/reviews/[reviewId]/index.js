@@ -1,15 +1,14 @@
 import { useRouter } from "next/router";
 import { client } from "@/lib/contentful";
 import { OrbitProgress } from "react-loading-indicators";
-import React, { useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import { formatDate } from "@/lib/formatDate";
-import { APIProvider, Map, Marker, useMarkerRef } from "@vis.gl/react-google-maps";
+import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
+import RichText from "@/components/RichText";
 
 const ReviewDetailPage = ({ reviewPageProps }) => {
-  const [markerRef, marker] = useMarkerRef();
   const router = useRouter();
-  console.log("reviewPageProps", reviewPageProps);
 
   if (router.isFallback) {
     return (
@@ -31,9 +30,8 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
     storeLocation,
     coffeeRating,
     reviewDate,
+    articleContent
   } = reviewPageProps.fields;
-
-  console.log(storeLocation.lat);
 
   return (
     <article className="text-xl">
@@ -49,7 +47,7 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
           className="m-auto"
         />
       </div>
-      <section className="max-w-4xl m-auto">
+      <section className="max-w-4xl m-auto mb-20">
         <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
           <Map
             style={{ width: "100%", height: "500px" }}
@@ -70,6 +68,9 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
           </Map>
         </APIProvider>
       </section>
+      <section className="mb-20">
+        <RichText pageInformation={articleContent} />
+      </section>
     </article>
   );
 };
@@ -77,14 +78,11 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
 export default ReviewDetailPage;
 
 export async function getStaticProps({ locale, params }) {
-  console.log("SLUG IN PARAMS =", params.reviewId);
-  console.log("PARAMS =", params);
-  console.log("LOCALE =", locale);
 
   if (locale === 'default') {
     locale = 'en-GB'
   }
-  
+
   const { reviewId } = params;
   const reviewPage = await client.getEntries({
     content_type: "article",
