@@ -40,8 +40,8 @@ const ReviewsPage = ({ reviewsProps }) => {
   const handleFilter = (selectedRegion) => {
     router.push({
       pathname: router.pathname,
-      query: { region: selectedRegion.toLowerCase().replace(" ", "-") }
-    })
+      query: { region: selectedRegion.toLowerCase().replace(" ", "-") },
+    });
   };
 
   return (
@@ -89,11 +89,15 @@ const ReviewsPage = ({ reviewsProps }) => {
 export default ReviewsPage;
 
 export async function getStaticProps({ locale }) {
+  if (locale === "default") {
+    locale = "en-GB";
+  }
+
   const allReviews = await client.getEntries({
     content_type: "article",
     include: 5,
     locale,
-    order: "-sys.createdAt"
+    order: "-sys.createdAt",
   });
 
   if (!allReviews.items.length) {
