@@ -16,7 +16,7 @@ const nextConfig = {
     // if this is false, the middleware will fall back to a locale that is either in the headers of the browser or cookies and defined in the accepted list above
     localeDetection: true
   },
-  trailingSlash: true
+  trailingSlash: false
 };
 
 export default nextConfig;

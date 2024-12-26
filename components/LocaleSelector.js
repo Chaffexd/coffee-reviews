@@ -1,15 +1,6 @@
+import { availableLocales } from "@/lib/locales";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
-const availableLocales = [
-  { language: "English", locale: "en-GB" },
-  { language: "English (US)", locale: "en-US" },
-  { language: "German", locale: "de-DE" },
-  { language: "French", locale: "fr-FR" },
-  { language: "Japanese", locale: "ja-JP" },
-  { language: "Chinese (TW)", locale: "zh-Hant-TW" },
-  { language: "Korean", locale: "ko-KR" },
-];
 
 export default function LocaleDropdown() {
   const router = useRouter();
@@ -18,18 +9,18 @@ export default function LocaleDropdown() {
 
   const handleLocaleChange = (e) => {
     const newLocale = e.target.value;
-    console.log("Redirecting to new locale =", newLocale)
+    console.log("Redirecting to new locale =", newLocale);
     // update the locale based on selection, then push them to that locale
     setSelectedLocale(newLocale);
-    router.push(`/${newLocale}/`, undefined, { locale: newLocale });
+    router.push(router.asPath, router.asPath, { locale: newLocale });
   };
 
   useEffect(() => {
     if (router.locale) {
-      console.log("Router Locale =", router.locale)
-      setSelectedLocale(router.locale)
+      console.log("Router Locale =", router.locale);
+      setSelectedLocale(router.locale);
     }
-  }, [router.locale])
+  }, [router.locale]);
 
   return (
     <select

@@ -12,10 +12,7 @@ export async function middleware(req: NextRequest) {
     return;
   }
 
-  // Default to 'en-GB' if no locale is found
-  const currentLocale = req.nextUrl.locale || 'en-GB'; // Default to 'en-GB' if no locale is provided
-
-  // If locale is missing or 'default', redirect to the correct locale
+  // if locale is missing or 'default', redirect to the correct locale
   if (!req.nextUrl.locale || req.nextUrl.locale === 'default') {
     const locale = req.cookies.get('NEXT_LOCALE')?.value || 'en-GB'; // Fallback to 'en-GB' if no cookie is set
 

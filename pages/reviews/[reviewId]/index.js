@@ -17,7 +17,7 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
           variant="track-disc"
           color="#2b86b9"
           size="medium"
-          text="Loading.."
+          text=""
         />
       </div>
     );
@@ -30,14 +30,21 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
     storeLocation,
     coffeeRating,
     reviewDate,
-    articleContent
+    articleContent,
   } = reviewPageProps.fields;
 
   return (
     <article className="text-xl">
       <div className="mb-20">
-        <h1 className="text-7xl">{pageTitle}</h1>
-        <time className="mb-8">{formatDate(reviewDate)}</time>
+        <div className="flex items-center">
+          <h1 className="text-7xl mr-8">{pageTitle}</h1>
+          <span className="rounded-full bg-yellow-300 h-24 w-24 flex justify-center items-center">
+            <p className="font-bold text-4xl">{coffeeRating}</p>
+            <span className="text-xs">/ 100</span>
+          </span>
+        </div>
+
+        <time className="my-4 block">{formatDate(reviewDate)}</time>
         <p className="mb-4">{articleIntroSnippet}</p>
         <Image
           src={`https:${articlePreviewImage.fields.image.fields.file.url}`}
@@ -61,8 +68,8 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
           >
             <Marker
               position={{
-                lat: storeLocation.lat, 
-                lng: storeLocation.lon, 
+                lat: storeLocation.lat,
+                lng: storeLocation.lon,
               }}
             />
           </Map>
@@ -78,9 +85,8 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
 export default ReviewDetailPage;
 
 export async function getStaticProps({ locale, params }) {
-
-  if (locale === 'default') {
-    locale = 'en-GB'
+  if (locale === "default") {
+    locale = "en-GB";
   }
 
   const { reviewId } = params;

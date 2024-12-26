@@ -9,14 +9,14 @@ const ArticleCard = ({ article }) => {
   return (
     <Link
       href={`${pagePath.fields.slug}/${slug}`}
-      className="bg-sky-400 flex flex-col items-center w-1/3 my-8 rounded-t-xl hover:-translate-y-2 transition-transform transform"
+      className="bg-sky-400 flex flex-col items-center w-[330px] my-8 rounded-t-xl hover:-translate-y-2 transition-transform transform"
     >
       <Image
         src={`https:${articlePreviewImage.fields.image.fields.file.url}`}
         alt={articlePreviewImage.fields.image.fields.description}
         width={100}
         height={100}
-        className="w-full rounded-t-xl"
+        className="w-full rounded-t-xl max-h-56 object-fit h-full"
       />
       <div className="p-8 text-center ">
         <h3 className="text-white font-bold text-2xl">{pageTitle}</h3>

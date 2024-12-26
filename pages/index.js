@@ -9,15 +9,19 @@ export default function Home({ landingPageProps }) {
 
   return (
     <section>
-      <h1 className="text-bold text-8xl italic mt-4 mb-12">{landingPageTitle}</h1>
+      <h1 className="text-bold text-8xl italic mt-4 mb-12">
+        {landingPageTitle}
+      </h1>
       <Carousel carousel={carousel} />
       <div className="mt-8 w-full">
         <h2 className="text-3xl text-bold my-12">
           Some of our featured reviews and articles
         </h2>
-        {featuredArticles.map((article) => (
-          <ArticleCard article={article} key={article.sys.id} />
-        ))}
+        <div className="flex w-full gap-6">
+          {featuredArticles.map((article) => (
+            <ArticleCard article={article} key={article.sys.id} />
+          ))}
+        </div>
       </div>
       <article className="w-full my-8">
         <RichText pageInformation={pageInformation} />
@@ -27,15 +31,15 @@ export default function Home({ landingPageProps }) {
 }
 
 export async function getStaticProps({ locale }) {
-  if (locale === 'default') {
-    locale = 'en-GB'
+  if (locale === "default") {
+    locale = "en-GB";
   }
-  
+
   const landingPage = await client.getEntries({
     content_type: "page",
     include: 5,
     "fields.slug[match]": "/",
-    locale
+    locale,
   });
 
   const landingPageProps = landingPage.items[0];
