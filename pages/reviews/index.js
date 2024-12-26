@@ -1,4 +1,5 @@
 import ArticleCard from "@/components/ArticleCard";
+import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -46,6 +47,15 @@ const ReviewsPage = ({ reviewsProps }) => {
 
   return (
     <section className="min-h-screen">
+      <SeoData 
+        title={"The Coffee Review | Reviews"}
+        description={"The Coffee Review | The page dedicated to see all of our reviews"}
+        image={``}
+        keywords={"Coffee, Artisan, Beans, Brew"}
+        url={"https://coffee-reviews-delta.vercel.app/reviews"}
+        publishedTime={""}
+        updatedTime={""}
+      />
       <h1 className="text-6xl">All Reviews</h1>
       <div className="w-full flex justify-around my-10">
         <button

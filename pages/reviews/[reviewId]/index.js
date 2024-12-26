@@ -6,6 +6,7 @@ import Image from "next/image";
 import { formatDate } from "@/lib/formatDate";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import RichText from "@/components/RichText";
+import SeoData from "@/components/SeoData";
 
 const ReviewDetailPage = ({ reviewPageProps }) => {
   const router = useRouter();
@@ -31,10 +32,20 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
     coffeeRating,
     reviewDate,
     articleContent,
+    seoMetadata,
   } = reviewPageProps.fields;
 
   return (
     <article className="text-xl">
+      <SeoData
+        title={`${seoMetadata.fields.title} | The Coffee Review`}
+        description={seoMetadata.fields.description}
+        image={`https:${seoMetadata.fields.image.fields.image.fields.file.url}`}
+        keywords={seoMetadata.fields.keywords}
+        url={"https://coffee-reviews-delta.vercel.app" + router.asPath}
+        publishedTime={seoMetadata.sys.publishedAt}
+        updatedTime={seoMetadata.sys.updatedAt}
+      />
       <div className="mb-20">
         <div className="flex items-center">
           <h1 className="text-7xl mr-8">{pageTitle}</h1>
@@ -43,7 +54,6 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
             <span className="text-xs">/ 100</span>
           </span>
         </div>
-
         <time className="my-4 block">{formatDate(reviewDate)}</time>
         <p className="mb-4">{articleIntroSnippet}</p>
         <Image
@@ -62,9 +72,11 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
               lat: storeLocation.lat,
               lng: storeLocation.lon,
             }}
-            defaultZoom={14}
+            defaultZoom={13}
             gestureHandling={"greedy"}
             disableDefaultUI={true}
+            zoomControl={true}
+            mapTypeId="roadmap"
           >
             <Marker
               position={{

@@ -1,14 +1,29 @@
 import ArticleCard from "@/components/ArticleCard";
 import { Carousel } from "@/components/Carousel";
 import RichText from "@/components/RichText";
+import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
 
 export default function Home({ landingPageProps }) {
-  const { carousel, landingPageTitle, featuredArticles, pageInformation } =
-    landingPageProps.fields;
+  const {
+    carousel,
+    landingPageTitle,
+    featuredArticles,
+    pageInformation,
+    seoMetadata,
+  } = landingPageProps.fields;
 
   return (
     <section>
+      <SeoData
+        title={seoMetadata.fields.title}
+        description={seoMetadata.fields.description}
+        image={`https:${seoMetadata.fields.image.fields.image.fields.file.url}`}
+        keywords={seoMetadata.fields.keywords}
+        url={"https://coffee-reviews-delta.vercel.app/"}
+        publishedTime={seoMetadata.sys.publishedAt}
+        updatedTime={seoMetadata.sys.updatedAt}
+      />
       <h1 className="text-bold text-8xl italic mt-4 mb-12">
         {landingPageTitle}
       </h1>
@@ -17,7 +32,7 @@ export default function Home({ landingPageProps }) {
         <h2 className="text-3xl text-bold my-12">
           Some of our featured reviews and articles
         </h2>
-        <div className="flex w-full gap-6">
+        <div className="flex w-full gap-6 justify-between">
           {featuredArticles.map((article) => (
             <ArticleCard article={article} key={article.sys.id} />
           ))}

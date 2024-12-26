@@ -27,9 +27,10 @@ export default function LocaleDropdown() {
       value={selectedLocale}
       onChange={handleLocaleChange}
       className="border rounded px-2 py-1 hover:cursor-pointer"
+      
     >
       {availableLocales.map((locale) => (
-        <option key={locale.locale} value={locale.locale}>
+        <option key={locale.locale} value={locale.locale} label={locale.language}>
           {locale.language}
         </option>
       ))}
