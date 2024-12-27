@@ -19,9 +19,6 @@ export default function LocaleDropdown() {
     if (router.locale) {
       console.log("Router Locale =", router.locale);
       setSelectedLocale(router.locale);
-
-      document.documentElement.lang = router.locale;
-      console.log("Doc =", document.documentElement.lang)
     }
   }, [router.locale]);
 

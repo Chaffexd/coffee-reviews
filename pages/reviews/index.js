@@ -57,7 +57,7 @@ const ReviewsPage = ({ reviewsProps }) => {
         updatedTime={""}
       />
       <h1 className="text-6xl">All Reviews</h1>
-      <div className="w-full flex justify-around my-10">
+      <div className="w-full flex justify-between my-10">
         <button
           className="bg-slate-100 hover:bg-slate-200 p-4 rounded-xl w-60 font-bold hover:-translate-y-2 transition-transform transform"
           onClick={() => handleFilter("all")}
@@ -87,7 +87,7 @@ const ReviewsPage = ({ reviewsProps }) => {
           North America
         </button>
       </div>
-      <div className="flex w-full flex-wrap gap-8">
+      <div className="flex w-full flex-wrap gap-4 justify-between">
         {filteredReviews.map((review) => (
           <ArticleCard article={review} key={review.sys.id} />
         ))}
