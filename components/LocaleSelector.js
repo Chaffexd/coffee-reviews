@@ -19,6 +19,9 @@ export default function LocaleDropdown() {
     if (router.locale) {
       console.log("Router Locale =", router.locale);
       setSelectedLocale(router.locale);
+
+      document.documentElement.lang = router.locale;
+      console.log("Doc =", document.documentElement.lang)
     }
   }, [router.locale]);
 
@@ -27,10 +30,13 @@ export default function LocaleDropdown() {
       value={selectedLocale}
       onChange={handleLocaleChange}
       className="border rounded px-2 py-1 hover:cursor-pointer"
-      
     >
       {availableLocales.map((locale) => (
-        <option key={locale.locale} value={locale.locale} label={locale.language}>
+        <option
+          key={locale.locale}
+          value={locale.locale}
+          label={locale.language}
+        >
           {locale.language}
         </option>
       ))}
