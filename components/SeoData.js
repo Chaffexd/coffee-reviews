@@ -14,6 +14,7 @@ const SeoData = ({
     <>
       <Head>
         <title>{title}</title>
+        <meta name="google-site-verification" content="RkE8h0M6DiqVPCqWJXfMZwbv7w8Y97GC-Nz4C1vOxrM" />
         <meta name="description" content={description} key={"desc"} />
         <meta name="og:title" content={title} />
         <meta property="og:description" content={description} />

@@ -1,5 +1,11 @@
+import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
-import { APIProvider, Map, InfoWindow, AdvancedMarker } from "@vis.gl/react-google-maps";
+import {
+  APIProvider,
+  Map,
+  InfoWindow,
+  AdvancedMarker,
+} from "@vis.gl/react-google-maps";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { OrbitProgress } from "react-loading-indicators";
@@ -20,6 +26,9 @@ const AboutPage = ({ aboutPageProps }) => {
     );
   }
 
+  const { seoMetadata } = aboutPageProps[0].fields;
+  console.log("PROPS =", aboutPageProps)
+
   const visitedCafes = aboutPageProps.map((cafe) => ({
     ...cafe.fields.storeLocation,
     title: cafe.fields.pageTitle,
@@ -29,6 +38,15 @@ const AboutPage = ({ aboutPageProps }) => {
 
   return (
     <article className="w-full">
+      <SeoData
+        title={"The Coffee Review | About"}
+        description={"The Coffee Review | The page dedicated to know more about our coffee journey"}
+        image={`https://images.ctfassets.net/a3pray39687x/2m1ScDXR0vQSXMYT4kpTCH/545ca0d879fc2f50d1e4c1c56f3e870a/pexels-chevanon-324028.jpg`}
+        keywords={"Coffee, Artisan, Beans, Brew"}
+        url={"https://coffee-reviews-delta.vercel.app/about"}
+        publishedTime={seoMetadata.sys.publishedAt}
+        updatedTime={seoMetadata.sys.updatedAt}
+      />
       <h1 className="text-4xl">
         So far we have been to{" "}
         <span className="font-bold">{aboutPageProps.length}</span> places!{" "}
