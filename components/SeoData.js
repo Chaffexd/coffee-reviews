@@ -17,8 +17,8 @@ const SeoData = ({
         <meta name="google-site-verification" content="RkE8h0M6DiqVPCqWJXfMZwbv7w8Y97GC-Nz4C1vOxrM" />
         <meta name="description" content={description} key={"desc"} />
         <meta name="og:title" content={title} />
-        <meta property="og:description" content={description} />
         <meta property="og:image" content={image} />
+        <meta property="og:description" content={description} />
         <meta name="keywords" content={keywords} />
         <meta name="robots" content="index, follow" />
         <meta name="googlebot" content="index, follow" />

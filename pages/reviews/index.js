@@ -50,7 +50,7 @@ const ReviewsPage = ({ reviewsProps }) => {
       <SeoData 
         title={"The Coffee Review | Reviews"}
         description={"The Coffee Review | The page dedicated to see all of our reviews"}
-        image={``}
+        image={`https://images.ctfassets.net/a3pray39687x/2m1ScDXR0vQSXMYT4kpTCH/545ca0d879fc2f50d1e4c1c56f3e870a/pexels-chevanon-324028.jpg`}
         keywords={"Coffee, Artisan, Beans, Brew"}
         url={"https://coffee-reviews-delta.vercel.app/reviews"}
         publishedTime={""}

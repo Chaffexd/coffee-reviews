@@ -27,7 +27,7 @@ const AboutPage = ({ aboutPageProps }) => {
   }
 
   const { seoMetadata } = aboutPageProps[0].fields;
-  console.log("PROPS =", aboutPageProps)
+  console.log("PROPS =", aboutPageProps);
 
   const visitedCafes = aboutPageProps.map((cafe) => ({
     ...cafe.fields.storeLocation,
@@ -40,7 +40,9 @@ const AboutPage = ({ aboutPageProps }) => {
     <article className="w-full">
       <SeoData
         title={"The Coffee Review | About"}
-        description={"The Coffee Review | The page dedicated to know more about our coffee journey"}
+        description={
+          "The Coffee Review | The page dedicated to know more about our coffee journey"
+        }
         image={`https://images.ctfassets.net/a3pray39687x/2m1ScDXR0vQSXMYT4kpTCH/545ca0d879fc2f50d1e4c1c56f3e870a/pexels-chevanon-324028.jpg`}
         keywords={"Coffee, Artisan, Beans, Brew"}
         url={"https://coffee-reviews-delta.vercel.app/about"}
@@ -51,12 +53,12 @@ const AboutPage = ({ aboutPageProps }) => {
         So far we have been to{" "}
         <span className="font-bold">{aboutPageProps.length}</span> places!{" "}
       </h1>
-      <section className="max-w-4xl m-auto my-12">
+      <section className=" my-12 w-full">
         <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
           <Map
             style={{ width: "100%", height: "500px" }}
             defaultCenter={{
-              lat: 54.559322,
+              lat: 45.559322,
               lng: -2.924647,
             }}
             defaultZoom={2.1}
@@ -81,9 +83,7 @@ const AboutPage = ({ aboutPageProps }) => {
                 position={{ lat: selectedCafe.lat, lng: selectedCafe.lon }}
                 onCloseClick={() => setSelectedCafe(null)}
               >
-                <div>
-                  <h3 className="font-bold">{selectedCafe.title}</h3>
-                </div>
+                <h3 className="font-bold">{selectedCafe.title}</h3>
               </InfoWindow>
             )}
           </Map>
