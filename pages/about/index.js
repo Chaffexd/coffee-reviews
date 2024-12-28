@@ -27,7 +27,6 @@ const AboutPage = ({ aboutPageProps }) => {
   }
 
   const { seoMetadata } = aboutPageProps[0].fields;
-  console.log("PROPS =", aboutPageProps);
 
   const visitedCafes = aboutPageProps.map((cafe) => ({
     ...cafe.fields.storeLocation,
