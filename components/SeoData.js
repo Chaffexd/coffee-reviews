@@ -39,10 +39,8 @@ const SeoData = ({
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
       <meta name="twitter:image:alt" content={title} />
-      <meta name="twitter:site" content="@CoffeeReviews" />{" "}
-      {/* Replace with actual Twitter handle */}
-      <meta name="twitter:creator" content="@ShaneChaffe" />{" "}
-      {/* Replace with actual creator handle */}
+      <meta name="twitter:site" content="@CoffeeReviews" />
+      <meta name="twitter:creator" content="@ShaneChaffe" />
       {/* Google Site Verification */}
       <meta
         name="google-site-verification"
