@@ -36,7 +36,7 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
   } = reviewPageProps.fields;
 
   return (
-    <article className="text-xl">
+    <article className="text-xl px-4 sm:px-0">
       <SeoData
         title={`${seoMetadata.fields.title} | The Coffee Review`}
         description={seoMetadata.fields.description}
@@ -47,8 +47,8 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
         updatedTime={seoMetadata.sys.updatedAt}
       />
       <div className="mb-20">
-        <div className="flex items-center">
-          <h1 className="text-7xl mr-8">{pageTitle}</h1>
+        <div className="flex flex-wrap items-center">
+          <h1 className="text-7xl mr-8 mb-6">{pageTitle}</h1>
           <span className="rounded-full bg-yellow-300 h-24 w-24 flex justify-center items-center">
             <p className="font-bold text-4xl">{coffeeRating}</p>
             <span className="text-xs">/ 100</span>

@@ -37,7 +37,7 @@ const AboutPage = ({ aboutPageProps }) => {
   const [selectedCafe, setSelectedCafe] = useState(null);
 
   return (
-    <article className="w-full">
+    <article className="w-full px-4 sm:px-0">
       <SeoData
         title={"The Coffee Review | About"}
         description={
