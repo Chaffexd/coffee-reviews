@@ -14,7 +14,7 @@ export default function Home({ landingPageProps }) {
   } = landingPageProps.fields;
 
   return (
-    <section>
+    <section className="m-auto flex justify-center flex-col px-2">
       <SeoData
         title={seoMetadata.fields.title}
         description={seoMetadata.fields.description}
@@ -32,7 +32,7 @@ export default function Home({ landingPageProps }) {
         <h2 className="text-3xl text-bold my-12">
           Some of our featured reviews and articles
         </h2>
-        <div className="flex w-full gap-6 justify-between">
+        <div className="flex w-full gap-6 justify-center sm:justify-between flex-wrap">
           {featuredArticles.map((article) => (
             <ArticleCard article={article} key={article.sys.id} />
           ))}

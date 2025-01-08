@@ -1,4 +1,5 @@
 import ArticleCard from "@/components/ArticleCard";
+import RegionFilter from "@/components/RegionFilter";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
 import { useRouter } from "next/router";
@@ -46,7 +47,7 @@ const ReviewsPage = ({ reviewsProps }) => {
   };
 
   return (
-    <section className="min-h-screen">
+    <section className="min-h-screen px-4 sm:px-0">
       <SeoData 
         title={"The Coffee Review | Reviews"}
         description={"The Coffee Review | The page dedicated to see all of our reviews"}
@@ -57,37 +58,10 @@ const ReviewsPage = ({ reviewsProps }) => {
         updatedTime={""}
       />
       <h1 className="text-6xl">All Reviews</h1>
-      <div className="w-full flex justify-between my-10">
-        <button
-          className="bg-slate-100 hover:bg-slate-200 p-4 rounded-xl w-60 font-bold hover:-translate-y-2 transition-transform transform"
-          onClick={() => handleFilter("all")}
-          value={"all"}
-        >
-          All Reviews
-        </button>
-        <button
-          className="bg-slate-100 hover:bg-slate-200 p-4 rounded-xl w-60 font-bold hover:-translate-y-2 transition-transform transform"
-          onClick={() => handleFilter("asia")}
-          value={"asia"}
-        >
-          Asia
-        </button>
-        <button
-          className="bg-slate-100 hover:bg-slate-200 p-4 rounded-xl w-60 font-bold hover:-translate-y-2 transition-transform transform"
-          onClick={() => handleFilter("europe")}
-          value={"europe"}
-        >
-          Europe
-        </button>
-        <button
-          className="bg-slate-100 hover:bg-slate-200 p-4 rounded-xl w-60 font-bold hover:-translate-y-2 transition-transform transform"
-          onClick={() => handleFilter("north-america")}
-          value={"north-america"}
-        >
-          North America
-        </button>
+      <div className="w-full flex justify-between my-6 gap-2 sm:gap-0 sm:my-10">
+        <RegionFilter handleFilter={handleFilter} />
       </div>
-      <div className="flex w-full flex-wrap gap-4 justify-between">
+      <div className="flex w-full flex-wrap gap-4 justify-center sm:justify-between">
         {filteredReviews.map((review) => (
           <ArticleCard article={review} key={review.sys.id} />
         ))}
