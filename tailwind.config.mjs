@@ -10,6 +10,11 @@ export default {
   theme: {
   	extend: {
   		colors: {
+			coffee: {
+				medium: '#885E3C',
+				creamLight: '#F5E6CC',
+				creamDark: '#E5D4B5'
+			},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

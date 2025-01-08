@@ -9,7 +9,7 @@ const ArticleCard = ({ article }) => {
   return (
     <Link
       href={`${pagePath.fields.slug}/${slug}`}
-      className="bg-sky-400 flex flex-col items-center w-[330px] my-8 rounded-t-xl hover:-translate-y-2 transition-transform transform"
+      className="bg-coffee-medium flex flex-col items-center w-[330px] my-8 rounded-t-xl hover:-translate-y-2 transition-transform transform"
     >
       <Image
         src={`https:${articlePreviewImage.fields.image.fields.file.url}`}
@@ -19,8 +19,8 @@ const ArticleCard = ({ article }) => {
         className="w-full rounded-t-xl max-h-56 object-fit h-full"
       />
       <div className="p-8 text-center ">
-        <h3 className="text-white font-bold text-2xl">{pageTitle}</h3>
-        <p>{articleIntroSnippet}</p>
+        <h3 className="text-coffee-creamLight font-bold text-2xl">{pageTitle}</h3>
+        <p className="text-coffee-creamDark text-lg">{articleIntroSnippet.length > 90 ? `${articleIntroSnippet.substring(0, 90)}...` : articleIntroSnippet}</p>
       </div>
     </Link>
   );

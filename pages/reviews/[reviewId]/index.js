@@ -54,7 +54,7 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
             <span className="text-xs">/ 100</span>
           </span>
         </div>
-        <time className="my-4 block">{formatDate(reviewDate)}</time>
+        <time className="my-4 block italic">{formatDate(reviewDate)}</time>
         <p className="mb-4">{articleIntroSnippet}</p>
         <Image
           src={`https:${articlePreviewImage.fields.image.fields.file.url}`}
