@@ -1,4 +1,4 @@
-import { AdvancedMarker, APIProvider, Map } from "@vis.gl/react-google-maps";
+import { AdvancedMarker, APIProvider, InfoWindow, Map } from "@vis.gl/react-google-maps";
 import React from "react";
 
 const GoogleMap = ({ selectedCafe, setSelectedCafe, visitedCafes }) => {
