@@ -51,7 +51,7 @@ const AboutPage = ({ aboutPageProps }) => {
       />
       <h1 className="text-4xl">
         So far we have been to{" "}
-        <span className="font-bold">{aboutPageProps.length}</span> places!{" "}
+        <span className="font-bold">{aboutPageProps.length}</span> places!
       </h1>
       <section className="mb-12 mt-10 w-full">
         <GoogleMap
@@ -59,6 +59,14 @@ const AboutPage = ({ aboutPageProps }) => {
           setSelectedCafe={setSelectedCafe}
           visitedCafes={visitedCafes}
         />
+        <p className="mt-8 text-xl">
+          Thanks for taking the time to check out the site, what started as a
+          hobby project that was solely for testing out how to properly follow
+          one of many localisation patterns turned out to be a passion project
+          about coffee instead. The whole idea is to document quality coffee
+          around the world based on what I visit and it's available in 7 locales
+          in total, isn't that great?
+        </p>
       </section>
     </article>
   );
