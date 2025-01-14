@@ -1,6 +1,6 @@
 import React from "react";
 
-const PaginationButton = ({ totalPages, currentPage }) => {
+const PaginationButton = ({ totalPages, currentPage, handlePageChange }) => {
   return [...Array(totalPages)].map((_, index) => (
     <button
       key={index}

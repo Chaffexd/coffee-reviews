@@ -87,7 +87,7 @@ const ReviewsPage = ({ reviewsProps }) => {
       </div>
       {totalPages > 1 && (
         <div className="flex justify-center mt-8 mb-14 space-x-2">
-          <PaginationButton totalPages={totalPages} currentPage={currentPage} />
+          <PaginationButton totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
         </div>
       )}
     </section>
