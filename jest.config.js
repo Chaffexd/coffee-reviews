@@ -1,29 +1,53 @@
-/** @type {import('jest').Config} */
-const config = {
-  clearMocks: true,
+module.exports = {
   collectCoverage: true,
-  coverageDirectory: "coverage",
+  // on node 14.x coverage provider v8 offers good speed and more or less good report
   coverageProvider: "v8",
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
-
-  // Add the transform property to handle JSX and modern syntax
-  transform: {
-    "^.+\\.(js|jsx)$": "babel-jest",
-  },
-
-  testEnvironment: "jsdom", // For browser-like testing
-
-  // Ignore transformations for node_modules except for specific modules if needed
-  transformIgnorePatterns: [
-    "/node_modules/(?!next).+\\.js$", // Allow Next.js to be transformed
+  collectCoverageFrom: [
+    "**/*.{js,jsx,ts,tsx}",
+    "!**/*.d.ts",
+    "!**/node_modules/**",
+    "!<rootDir>/out/**",
+    "!<rootDir>/.next/**",
+    "!<rootDir>/*.config.js",
+    "!<rootDir>/coverage/**",
   ],
-  moduleDirectories: ['node_modules', __dirname],
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/$1",
-    //"^contentful$": "<rootDir>/__mocks__/contentful.js", // Correct mapping
-    "^@contentful/rich-text-types$":
-      "<rootDir>/node_modules/@contentful/rich-text-types",
-  },
-};
+    // Handle CSS imports (with CSS modules)
+    // https://jestjs.io/docs/webpack#mocking-css-modules
+    "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
 
-module.exports = config;
+    // Handle CSS imports (without CSS modules)
+    "^.+\\.(css|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
+
+    // Handle image imports
+    // https://jestjs.io/docs/webpack#handling-static-assets
+    "^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$": `<rootDir>/__mocks__/fileMock.js`,
+
+    // Handle module aliases
+    "^@/components/(.*)$": "<rootDir>/components/$1",
+
+    // Handle @next/font
+    "@next/font/(.*)": `<rootDir>/__mocks__/nextFontMock.js`,
+    "^@/pages$": "<rootDir>/pages",
+    "^@/pages/(.*)$": "<rootDir>/pages/$1",
+    "^@/lib/(.*)$": "<rootDir>/lib/$1",
+    // Handle next/font
+    "next/font/(.*)": `<rootDir>/__mocks__/nextFontMock.js`,
+    // Disable server-only
+    "server-only": `<rootDir>/__mocks__/empty.js`,
+  },
+  testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+  // Add more setup options before each test is run
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
+  testEnvironment: "jsdom",
+  transform: {
+    // Use babel-jest to transpile tests with the next/babel preset
+    // https://jestjs.io/docs/configuration#transform-objectstring-pathtotransformer--pathtotransformer-object
+    "^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
+  },
+  transformIgnorePatterns: [
+    "/node_modules/",
+    "^.+\\.module\\.(css|sass|scss)$",
+  ],
+};

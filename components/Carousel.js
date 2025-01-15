@@ -6,16 +6,10 @@ import Image from "next/image";
 export function Carousel({ carousel }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]);
 
-/*   useEffect(() => {
-    if (emblaApi) {
-      console.log(emblaApi.slideNodes()); // Access API
-    }
-  }, [emblaApi]); */
-
   return (
     <div className="embla w-full h-full" ref={emblaRef}>
       <div className="embla__container flex">
-        {carousel.map((item, index) => (
+        {carousel?.map((item, index) => (
           <div
             key={index}
             className="embla__slide flex items-center justify-center"

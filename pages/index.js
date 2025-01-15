@@ -33,7 +33,7 @@ export default function Home({ landingPageProps }) {
           Some of our featured reviews and articles
         </h2>
         <div className="flex w-full gap-6 justify-center sm:justify-between flex-wrap">
-          {featuredArticles.map((article) => (
+          {featuredArticles?.map((article) => (
             <ArticleCard article={article} key={article.sys.id} />
           ))}
         </div>

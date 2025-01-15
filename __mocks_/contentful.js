@@ -1,4 +1,3 @@
-import "contentful";
 import { createClient } from "contentful";
 
 export const createClient = jest.fn(() => ({
