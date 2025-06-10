@@ -33,7 +33,7 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
     reviewDate,
     articleContent,
     seoMetadata,
-  } = reviewPageProps.fields;
+  } = reviewPageProps?.fields;
 
   return (
     <article className="text-xl px-4 sm:px-0">
@@ -109,7 +109,7 @@ export async function getStaticProps({ locale, params }) {
     locale,
   });
 
-  if (!reviewPage.items.length) {
+  if (!reviewPage) {
     return { notFound: true };
   }
 
