@@ -1,15 +1,28 @@
 import { useRouter } from "next/router";
 import { client } from "@/lib/contentful";
 import { OrbitProgress } from "react-loading-indicators";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { formatDate } from "@/lib/formatDate";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
+import { IoMdArrowBack } from "react-icons/io";
+import { CiShare1 } from "react-icons/ci";
+import Link from "next/link";
 
 const ReviewDetailPage = ({ reviewPageProps }) => {
   const router = useRouter();
+  const [copied, setCopied] = useState(false);
+
+  const copyLinkToClipboard = () => {
+    const url = `${window.location.origin}${router.asPath}`;
+    navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 1000);
+  };
 
   if (router.isFallback) {
     return (
@@ -54,7 +67,21 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
             <span className="text-xs">/ 100</span>
           </span>
         </div>
+        <Link href={"/reviews"} className="max-w-[22px] my-5 block">
+          <IoMdArrowBack />
+        </Link>
         <time className="my-4 block italic">{formatDate(reviewDate)}</time>
+        <div className="flex items-center mb-4 h-[26px]">
+          <CiShare1
+            className="hover:cursor-pointer"
+            onClick={copyLinkToClipboard}
+          />
+          {copied && (
+            <span className="relative ml-2 h-[24px] bg-gray-800 text-white text-xs px-2 py-1 rounded shadow">
+              Copied!
+            </span>
+          )}
+        </div>
         <p className="mb-4">{articleIntroSnippet}</p>
         <Image
           src={`https:${articlePreviewImage.fields.image.fields.file.url}`}
