@@ -13,6 +13,7 @@
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^16.0.1",
     "@contentful/rich-text-types": "^17.0.0",
+    "@ninetailed/experience.js-next": "^7.15.1",
     "@radix-ui/react-dialog": "^1.1.4",
     "@vis.gl/react-google-maps": "^1.4.2",
     "class-variance-authority": "^0.7.1",
