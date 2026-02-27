@@ -32,7 +32,7 @@ body {
 }
 
 .gm-style-iw-c {
-  display: flex!;
+  display: flex !important;
 }
 
 @layer base {
