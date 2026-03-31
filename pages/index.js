@@ -3,6 +3,7 @@ import { Carousel } from "@/components/Carousel";
 import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
+import { Experience } from "@ninetailed/experience.js-next";
 
 export default function Home({ landingPageProps }) {
   const {

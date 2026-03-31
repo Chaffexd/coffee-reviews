@@ -1,10 +1,9 @@
-import { useNinetailed } from "@ninetailed/experience.js-next";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const ArticleCard = ({ article }) => {
-  const { track } = useNinetailed();
+
   const {
     articleIntroSnippet,
     pageTitle,
@@ -17,9 +16,6 @@ const ArticleCard = ({ article }) => {
     <Link
       href={`${pagePath.fields.slug}/${slug}`}
       className="bg-coffee-medium flex flex-col items-center w-[330px] my-8 rounded-t-xl hover:-translate-y-2 transition-transform transform"
-      onClick={() => {
-        track(pageTitle);
-      }}
     >
       <Image
         src={`https:${articlePreviewImage.fields.image.fields.file.url}`}
