@@ -28,7 +28,9 @@ export async function middleware(req: NextRequest) {
     try {
       const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "";
       const geoRes = await fetch(`https://ip-api.com/json/${ip}`);
+      console.log("Fetching geolocation for IP:", geoRes);
       const geoData = await geoRes.json();
+      console.log("Geolocation response:", geoData);
       country = geoData.countryCode;
       console.log("Detected country from IP:", country);
     } catch {
