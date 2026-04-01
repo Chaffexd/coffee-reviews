@@ -10,8 +10,9 @@ import SeoData from "@/components/SeoData";
 import { IoMdArrowBack } from "react-icons/io";
 import { CiShare1 } from "react-icons/ci";
 import Link from "next/link";
+import { EntryAnalytics } from "@ninetailed/experience.js-next";
 
-const ReviewDetailPage = ({ reviewPageProps }) => {
+const ReviewDetailContent = ({ reviewPageProps }) => {
   const router = useRouter();
   const [copied, setCopied] = useState(false);
 
@@ -23,19 +24,6 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
       setCopied(false);
     }, 1000);
   };
-
-  if (router.isFallback) {
-    return (
-      <div className="w-full h-screen flex justify-center items-center">
-        <OrbitProgress
-          variant="track-disc"
-          color="#2b86b9"
-          size="medium"
-          text=""
-        />
-      </div>
-    );
-  }
 
   const {
     pageTitle,
@@ -118,6 +106,31 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
         <RichText pageInformation={articleContent} />
       </section>
     </article>
+  );
+};
+
+const ReviewDetailPage = ({ reviewPageProps }) => {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <OrbitProgress
+          variant="track-disc"
+          color="#2b86b9"
+          size="medium"
+          text=""
+        />
+      </div>
+    );
+  }
+
+  return (
+    <EntryAnalytics
+      id={reviewPageProps.sys.id}
+      component={ReviewDetailContent}
+      passthroughProps={{ reviewPageProps }}
+    />
   );
 };
 

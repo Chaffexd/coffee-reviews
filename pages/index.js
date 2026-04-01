@@ -3,7 +3,7 @@ import { Carousel } from "@/components/Carousel";
 import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
-import { Experience } from "@ninetailed/experience.js-next";
+import { EntryAnalytics, Experience } from "@ninetailed/experience.js-next";
 
 export default function Home({ landingPageProps }) {
   const {
@@ -28,14 +28,23 @@ export default function Home({ landingPageProps }) {
       <h1 className="text-bold text-8xl italic mt-4 mb-12">
         {landingPageTitle}
       </h1>
-      <Carousel carousel={carousel} />
+      <EntryAnalytics
+        id={landingPageProps.sys.id}
+        component={Carousel}
+        passthroughProps={{ carousel }}
+      />
       <div className="mt-8 w-full">
         <h2 className="text-3xl text-bold my-12">
           Some of our featured reviews and articles
         </h2>
         <div className="flex w-full gap-6 justify-center sm:justify-between flex-wrap">
           {featuredArticles?.map((article) => (
-            <ArticleCard article={article} key={article.sys.id} />
+            <EntryAnalytics
+              key={article.sys.id}
+              id={article.sys.id}
+              component={ArticleCard}
+              article={article}
+            />
           ))}
         </div>
       </div>

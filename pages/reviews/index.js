@@ -4,6 +4,7 @@ import RegionFilter from "@/components/RegionFilter";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
 import { currentDateTime } from "@/lib/currentTime";
+import { EntryAnalytics } from "@ninetailed/experience.js-next";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -35,7 +36,7 @@ const ReviewsPage = ({ reviewsProps }) => {
       } else {
         const filtered = reviewsProps.filter(
           (review) =>
-            review.fields.region.toLowerCase() === region.toLowerCase()
+            review.fields.region.toLowerCase() === region.toLowerCase(),
         );
         setFilteredReviews(filtered);
       }
@@ -55,7 +56,7 @@ const ReviewsPage = ({ reviewsProps }) => {
   const startIndex = (currentPage - 1) * reviewsPerPage;
   const currentReivews = filteredReviews.slice(
     startIndex,
-    startIndex + reviewsPerPage
+    startIndex + reviewsPerPage,
   );
 
   const handlePageChange = (page) => {
@@ -75,19 +76,28 @@ const ReviewsPage = ({ reviewsProps }) => {
         publishedTime={currentDateTime}
         updatedTime={currentDateTime}
       />
-      
+
       <h1 className="text-6xl">All Reviews</h1>
       <div className="w-full flex justify-between my-6 gap-2 sm:gap-0 sm:my-10">
         <RegionFilter handleFilter={handleFilter} />
       </div>
       <div className="flex w-full flex-wrap gap-4 justify-center sm:justify-between">
         {currentReivews.map((review) => (
-          <ArticleCard article={review} key={review.sys.id} />
+          <EntryAnalytics
+            key={review.sys.id}
+            id={review.sys.id}
+            component={ArticleCard}
+            article={review}
+          />
         ))}
       </div>
       {totalPages > 1 && (
         <div className="flex justify-center mt-8 mb-14 space-x-2">
-          <PaginationButton totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
+          <PaginationButton
+            totalPages={totalPages}
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+          />
         </div>
       )}
     </section>

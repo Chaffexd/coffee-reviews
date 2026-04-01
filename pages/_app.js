@@ -5,14 +5,14 @@ import { NinetailedInsightsPlugin } from "@ninetailed/experience.js-plugin-insig
 
 export default function App({ Component, pageProps }) {
   return (
-    <Layout>
-      <NinetailedProvider
-        clientId="18412742-d1c0-4be8-8687-8f8d81cd2982"
-        plugins={[new NinetailedInsightsPlugin()]}
-        componentViewTrackingThreshold={2000}
-      >
+    <NinetailedProvider
+      clientId="18412742-d1c0-4be8-8687-8f8d81cd2982"
+      plugins={[new NinetailedInsightsPlugin()]}
+      componentViewTrackingThreshold={2000}
+    >
+      <Layout>
         <Component {...pageProps} />
-      </NinetailedProvider>
-    </Layout>
+      </Layout>
+    </NinetailedProvider>
   );
 }
