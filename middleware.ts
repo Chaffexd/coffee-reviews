@@ -30,6 +30,7 @@ export async function middleware(req: NextRequest) {
       const geoRes = await fetch(`https://ip-api.com/json/${ip}`);
       const geoData = await geoRes.json();
       country = geoData.countryCode;
+      console.log("Detected country from IP:", country);
     } catch {
       // ip-api failed, fall through to Accept-Language
     }
