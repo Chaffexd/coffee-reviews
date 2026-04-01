@@ -22,12 +22,14 @@ export async function middleware(req: NextRequest) {
   }
 
   if (!req.nextUrl.locale || req.nextUrl.locale === "default") {
-    const geo = (req as NextRequest & { geo?: { country?: string } }).geo;
-    const country = geo?.country ?? "GB";
+    const acceptLanguage = req.headers.get("accept-language") ?? "";
+    const browserLocale = acceptLanguage.split(",")[0]; // e.g. "en-US"
+    const country = browserLocale.split("-")[1] ?? "GB"; // e.g. "US"
+
     const locale =
-      req.cookies.get("NEXT_LOCALE")?.value || // respect manual cookie override first
-      localesByCountry[country] || // then try geo
-      "en-GB"; // final fallback
+      req.cookies.get("NEXT_LOCALE")?.value ||
+      localesByCountry[country] ||
+      "en-GB";
 
     return NextResponse.redirect(
       new URL(
