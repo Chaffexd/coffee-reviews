@@ -27,7 +27,9 @@ export async function middleware(req: NextRequest) {
     // 1. try IP geolocation
     try {
       const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "";
+      console.log("Client IP:", ip);
       const geoRes = await fetch(`https://ipapi.co/${ip}/country/`);
+      console.log("Geolocation response status:", geoRes);
       if (geoRes.ok) {
         country = (await geoRes.text()).trim();
       }
