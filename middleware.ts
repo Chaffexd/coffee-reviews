@@ -31,11 +31,15 @@ export async function middleware(req: NextRequest) {
       localesByCountry[country] ||
       "en-GB";
 
-    return NextResponse.redirect(
+    const response = NextResponse.redirect(
       new URL(
         `/${locale}${req.nextUrl.pathname}${req.nextUrl.search}`,
         req.url,
       ),
     );
+
+    response.cookies.set("NEXT_LOCALE", locale, { path: "/" });
+
+    return response;
   }
 }
