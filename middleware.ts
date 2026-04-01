@@ -22,9 +22,25 @@ export async function middleware(req: NextRequest) {
   }
 
   if (!req.nextUrl.locale || req.nextUrl.locale === "default") {
-    const acceptLanguage = req.headers.get("accept-language") ?? "";
-    const browserLocale = acceptLanguage.split(",")[0]; // e.g. "en-US"
-    const country = browserLocale.split("-")[1] ?? "GB"; // e.g. "US"
+    let country: string | undefined;
+
+    // 1. try IP geolocation
+    try {
+      const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "";
+      const geoRes = await fetch(`https://ip-api.com/json/${ip}`);
+      const geoData = await geoRes.json();
+      country = geoData.countryCode;
+    } catch {
+      // ip-api failed, fall through to Accept-Language
+    }
+
+    // 2. fallback to Accept-Language header
+    if (!country) {
+      const acceptLanguage = req.headers.get("accept-language") ?? "";
+      const browserLocale = acceptLanguage.split(",")[0];
+      const parts = browserLocale.split("-");
+      country = parts[parts.length - 1] ?? "GB";
+    }
 
     const locale =
       req.cookies.get("NEXT_LOCALE")?.value ||
