@@ -27,14 +27,12 @@ export async function middleware(req: NextRequest) {
     // 1. try IP geolocation
     try {
       const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "";
-      const geoRes = await fetch(`https://ip-api.com/json/${ip}`);
-      console.log("Fetching geolocation for IP:", geoRes);
-      const geoData = await geoRes.json();
-      console.log("Geolocation response:", geoData);
-      country = geoData.countryCode;
-      console.log("Detected country from IP:", country);
+      const geoRes = await fetch(`https://ipapi.co/${ip}/country/`);
+      if (geoRes.ok) {
+        country = (await geoRes.text()).trim();
+      }
     } catch {
-      // ip-api failed, fall through to Accept-Language
+      // ipapi.co failed, fall through to Accept-Language
     }
 
     // 2. fallback to Accept-Language header
