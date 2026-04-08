@@ -10,14 +10,21 @@ import SeoData from "@/components/SeoData";
 import { IoMdArrowBack } from "react-icons/io";
 import { CiShare1 } from "react-icons/ci";
 import Link from "next/link";
-import { EntryAnalytics } from "@ninetailed/experience.js-next";
+import { EntryAnalytics, useNinetailed } from "@ninetailed/experience.js-next";
 
 const ReviewDetailContent = ({ reviewPageProps }) => {
   const router = useRouter();
+  const { track } = useNinetailed();
   const [copied, setCopied] = useState(false);
 
   const copyLinkToClipboard = () => {
     const url = `${window.location.origin}${router.asPath}`;
+
+    track("review_shared", {
+      reviewId: reviewPageProps.sys.id,
+      reviewTitle: pageTitle,
+    });
+
     navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => {

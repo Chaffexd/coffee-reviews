@@ -4,12 +4,13 @@ import RegionFilter from "@/components/RegionFilter";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
 import { currentDateTime } from "@/lib/currentTime";
-import { EntryAnalytics } from "@ninetailed/experience.js-next";
+import { EntryAnalytics, useNinetailed } from "@ninetailed/experience.js-next";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 const ReviewsPage = ({ reviewsProps }) => {
   const router = useRouter();
+  const { track } = useNinetailed();
   const { region } = router.query;
   const [filteredReviews, setFilteredReviews] = useState(reviewsProps);
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,6 +48,7 @@ const ReviewsPage = ({ reviewsProps }) => {
   }, [region, reviewsProps]);
 
   const handleFilter = (selectedRegion) => {
+    track("region_filter_applied", { region: selectedRegion });
     router.push({
       pathname: router.pathname,
       query: { region: selectedRegion.toLowerCase().replace(" ", "-") },
@@ -83,12 +85,21 @@ const ReviewsPage = ({ reviewsProps }) => {
       </div>
       <div className="flex w-full flex-wrap gap-4 justify-center sm:justify-between">
         {currentReivews.map((review) => (
-          <EntryAnalytics
+          <div
             key={review.sys.id}
-            id={review.sys.id}
-            component={ArticleCard}
-            article={review}
-          />
+            onClick={() =>
+              track("review_click", {
+                reviewId: review.sys.id,
+                reviewTitle: review.fields.pageTitle,
+              })
+            }
+          >
+            <EntryAnalytics
+              id={review.sys.id}
+              component={ArticleCard}
+              article={review}
+            />
+          </div>
         ))}
       </div>
       {totalPages > 1 && (

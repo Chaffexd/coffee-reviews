@@ -15,7 +15,7 @@ const ArticleCard = ({ article }) => {
   return (
     <Link
       href={`${pagePath.fields.slug}/${slug}`}
-      className="bg-coffee-medium flex flex-col items-center w-[330px] my-8 rounded-t-xl hover:-translate-y-2 transition-transform transform"
+      className="bg-coffee-medium flex flex-col items-center w-[330px] h-[440px] my-8 rounded-t-xl hover:-translate-y-2 transition-transform transform"
     >
       <Image
         src={`https:${articlePreviewImage.fields.image.fields.file.url}`}

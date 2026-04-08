@@ -3,7 +3,11 @@ import { Carousel } from "@/components/Carousel";
 import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
-import { EntryAnalytics, Experience } from "@ninetailed/experience.js-next";
+import {
+  EntryAnalytics,
+  Experience,
+  useNinetailed,
+} from "@ninetailed/experience.js-next";
 
 export default function Home({ landingPageProps }) {
   const {
@@ -13,6 +17,8 @@ export default function Home({ landingPageProps }) {
     pageInformation,
     seoMetadata,
   } = landingPageProps.fields;
+
+  const { track } = useNinetailed();
 
   return (
     <section className="m-auto flex justify-center flex-col px-2">
@@ -39,12 +45,21 @@ export default function Home({ landingPageProps }) {
         </h2>
         <div className="flex w-full gap-6 justify-center sm:justify-between flex-wrap">
           {featuredArticles?.map((article) => (
-            <EntryAnalytics
+            <div
               key={article.sys.id}
-              id={article.sys.id}
-              component={ArticleCard}
-              article={article}
-            />
+              onClick={() =>
+                track("article_click", {
+                  articleId: article.sys.id,
+                  articleTitle: article.fields.pageTitle,
+                })
+              }
+            >
+              <EntryAnalytics
+                id={article.sys.id}
+                component={ArticleCard}
+                article={article}
+              />
+            </div>
           ))}
         </div>
       </div>

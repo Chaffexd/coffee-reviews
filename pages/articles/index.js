@@ -2,10 +2,11 @@ import ContentArticleCard from "@/components/ContentArticleCard";
 import SeoData from "@/components/SeoData";
 import { getArticles } from "@/lib/articles";
 import { currentDateTime } from "@/lib/currentTime";
-import { EntryAnalytics } from "@ninetailed/experience.js-next";
+import { EntryAnalytics, useNinetailed } from "@ninetailed/experience.js-next";
 import React from "react";
 
 const ArticlesPage = ({ articles }) => {
+  const { track } = useNinetailed();
   return (
     <section className="min-h-screen px-4 py-10 sm:px-0">
       <SeoData
@@ -31,12 +32,21 @@ const ArticlesPage = ({ articles }) => {
       {articles.length ? (
         <div className="grid gap-8">
           {articles.map((article) => (
-            <EntryAnalytics
+            <div
               key={article.sys.id}
-              id={article.sys.id}
-              component={ContentArticleCard}
-              passthroughProps={{ article }}
-            />
+              onClick={() =>
+                track("article_card_click", {
+                  articleId: article.sys.id,
+                  articleTitle: article.fields.title,
+                })
+              }
+            >
+              <EntryAnalytics
+                id={article.sys.id}
+                component={ContentArticleCard}
+                passthroughProps={{ article }}
+              />
+            </div>
           ))}
         </div>
       ) : (
