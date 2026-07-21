@@ -120,6 +120,7 @@ const ReviewsPage = ({ reviewsProps }) => {
         {currentReivews.map((review) => (
           <div
             key={review.sys.id}
+            className="h-full"
             onClick={() =>
               track("review_click", {
                 reviewId: review.sys.id,

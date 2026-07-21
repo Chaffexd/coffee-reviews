@@ -80,6 +80,7 @@ export default function Home({ landingPageProps }) {
           {featuredArticles?.map((article) => (
             <div
               key={article.sys.id}
+              className="h-full"
               onClick={() =>
                 track("article_click", {
                   articleId: article.sys.id,

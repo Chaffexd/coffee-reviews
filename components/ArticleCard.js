@@ -18,7 +18,7 @@ const ArticleCard = ({ article, showRegion = true }) => {
   return (
     <Link
       href={`${pagePath.fields.slug}/${slug}`}
-      className="group flex flex-col bg-surface border-2 border-divider rounded-none transition hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(45,43,43,0.22)] hover:border-accent"
+      className="group flex h-full flex-col bg-surface border-2 border-divider rounded-none transition hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(45,43,43,0.22)] hover:border-accent"
     >
       <div className="aspect-[4/3] overflow-hidden">
         <Image
@@ -29,7 +29,7 @@ const ArticleCard = ({ article, showRegion = true }) => {
           className="h-full w-full object-cover transition-transform duration-[400ms] group-hover:scale-105"
         />
       </div>
-      <div className="p-[18px]">
+      <div className="flex flex-1 flex-col p-[18px]">
         {showRegion && region && (
           <span className="inline-flex text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">
             {region}
