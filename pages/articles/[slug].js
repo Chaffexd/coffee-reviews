@@ -2,7 +2,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { OrbitProgress } from "react-loading-indicators";
-import { IoMdArrowBack } from "react-icons/io";
 import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
 import {
@@ -18,7 +17,7 @@ const ArticleDetailContent = ({ article }) => {
   const { title, dateOfPublication, body, excerpt } = article.fields;
 
   return (
-    <article className="min-h-screen max-w-5xl px-4 py-10 sm:px-0">
+    <article className="min-h-screen max-w-[760px] mx-auto px-4 py-10 sm:px-0">
       <SeoData
         title={`${title} | The Coffee Review`}
         description={excerpt || extractArticlePreview(body)}
@@ -30,22 +29,28 @@ const ArticleDetailContent = ({ article }) => {
       />
       <Link
         href="/articles"
-        className="mb-8 inline-flex items-center gap-2 text-lg"
+        className="inline-block mb-8 text-accent text-[14px] font-semibold"
       >
-        <IoMdArrowBack />
-        Back to articles
+        &lt;- All articles
       </Link>
-      <header className="mb-12 border-b border-stone-200 pb-8">
-        <time className="mb-4 block text-lg font-semibold uppercase tracking-[0.2em] text-coffee-medium">
-          {formatDate(dateOfPublication)}
-        </time>
-        <h1 className="text-5xl font-bold leading-tight text-stone-900 sm:text-6xl">
+
+      <header className="mb-11 pb-8 border-b-2 border-divider">
+        <p className="text-accent-700 uppercase tracking-[0.12em] text-[12px] font-semibold">
+          Article &middot; {formatDate(dateOfPublication)}
+        </p>
+        <h1 className="font-archivo font-extrabold text-[clamp(36px,4.4vw,56px)] mt-3">
           {title}
         </h1>
+        {excerpt && (
+          <p className="mt-4 text-[18px] text-ink/70">{excerpt}</p>
+        )}
       </header>
-      <section className="mb-20">
+
+      <div className="max-w-[720px] text-[16.5px] leading-[1.7]">
         <RichText pageInformation={body} />
-      </section>
+      </div>
+
+      <hr className="h-[2px] bg-divider border-0 mt-12" />
     </article>
   );
 };
