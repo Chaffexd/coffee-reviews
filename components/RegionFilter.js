@@ -1,37 +1,31 @@
 import React from "react";
 
-const RegionFilter = ({ handleFilter }) => {
+const options = [
+  { label: "All", value: "all", countKey: "all" },
+  { label: "Asia", value: "asia", countKey: "asia" },
+  { label: "Europe", value: "europe", countKey: "europe" },
+  { label: "N. America", value: "north-america", countKey: "north-america" },
+];
+
+const RegionFilter = ({ handleFilter, counts = {}, active = "all" }) => {
   return (
-    <>
-      <button
-        className="bg-coffee-medium hover:bg-coffee-creamLight hover:text-coffee-medium text-coffee-creamLight p-4 rounded-xl w-60 font-bold hover:-translate-y-2 transition-transform transform"
-        onClick={() => handleFilter("all")}
-        value={"all"}
-      >
-        All Reviews
-      </button>
-      <button
-        className="bg-coffee-medium hover:bg-coffee-creamLight hover:text-coffee-medium text-coffee-creamLight  p-4 rounded-xl w-60 font-bold hover:-translate-y-2 transition-transform transform"
-        onClick={() => handleFilter("asia")}
-        value={"asia"}
-      >
-        Asia
-      </button>
-      <button
-        className="bg-coffee-medium hover:bg-coffee-creamLight hover:text-coffee-medium text-coffee-creamLight p-4 rounded-xl w-60 font-bold hover:-translate-y-2 transition-transform transform"
-        onClick={() => handleFilter("europe")}
-        value={"europe"}
-      >
-        Europe
-      </button>
-      <button
-        className="bg-coffee-medium hover:bg-coffee-creamLight hover:text-coffee-medium text-coffee-creamLight p-4 rounded-xl w-60 font-bold hover:-translate-y-2 transition-transform transform"
-        onClick={() => handleFilter("north-america")}
-        value={"north-america"}
-      >
-        North America
-      </button>
-    </>
+    <div className="inline-flex border-2 border-divider rounded-none">
+      {options.map((option) => {
+        const isActive = active === option.value;
+        return (
+          <button
+            key={option.value}
+            onClick={() => handleFilter(option.value)}
+            value={option.value}
+            className={`px-3 py-[7px] text-[13px] font-semibold border-l border-divider first:border-l-0 ${
+              isActive ? "bg-accent text-bg" : "bg-surface text-ink"
+            }`}
+          >
+            {option.label} ({counts[option.countKey] ?? 0})
+          </button>
+        );
+      })}
+    </div>
   );
 };
 

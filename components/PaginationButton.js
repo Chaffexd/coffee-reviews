@@ -5,10 +5,10 @@ const PaginationButton = ({ totalPages, currentPage, handlePageChange }) => {
     <button
       key={index}
       onClick={() => handlePageChange(index + 1)}
-      className={`px-4 py-2 rounded ${
+      className={`w-9 h-9 flex items-center justify-center border-2 border-divider rounded-none text-[13px] font-semibold ${
         currentPage === index + 1
-          ? "bg-coffee-medium text-white hover:bg-coffee-creamLight"
-          : "bg-coffee-creamLight text-black hover:bg-coffee-medium hover:text-white"
+          ? "bg-accent text-bg"
+          : "bg-surface text-ink hover:bg-accent-100"
       }`}
     >
       {index + 1}

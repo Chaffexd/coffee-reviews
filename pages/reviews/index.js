@@ -55,14 +55,28 @@ const ReviewsPage = ({ reviewsProps }) => {
     });
   };
 
-  const startIndex = (currentPage - 1) * reviewsPerPage;
-  const currentReivews = filteredReviews.slice(
-    startIndex,
-    startIndex + reviewsPerPage,
+  const sorted = [...filteredReviews].sort(
+    (a, b) => (b.fields.coffeeRating || 0) - (a.fields.coffeeRating || 0),
   );
+
+  const startIndex = (currentPage - 1) * reviewsPerPage;
+  const currentReivews = sorted.slice(startIndex, startIndex + reviewsPerPage);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const counts = {
+    all: reviewsProps.length,
+    asia: reviewsProps.filter(
+      (review) => review.fields.region?.toLowerCase() === "asia",
+    ).length,
+    europe: reviewsProps.filter(
+      (review) => review.fields.region?.toLowerCase() === "europe",
+    ).length,
+    "north-america": reviewsProps.filter(
+      (review) => review.fields.region?.toLowerCase() === "north america",
+    ).length,
   };
 
   return (
@@ -79,9 +93,25 @@ const ReviewsPage = ({ reviewsProps }) => {
         updatedTime={currentDateTime}
       />
 
-      <h1 className="text-6xl">All Reviews</h1>
+      <div className="flex items-end justify-between flex-wrap gap-3">
+        <div>
+          <p className="text-accent-700 uppercase tracking-[0.12em] text-[12px] font-semibold">
+            Every cup, scored
+          </p>
+          <h1 className="font-archivo font-extrabold text-[clamp(38px,4.4vw,54px)]">
+            All Reviews
+          </h1>
+        </div>
+        <p className="text-[13px] text-ink/70 whitespace-nowrap">
+          Showing {filteredReviews.length} cafes
+        </p>
+      </div>
       <div className="w-full flex justify-between my-6 gap-2 sm:gap-0 sm:my-10">
-        <RegionFilter handleFilter={handleFilter} />
+        <RegionFilter
+          handleFilter={handleFilter}
+          counts={counts}
+          active={region || "all"}
+        />
       </div>
       <div className="flex w-full flex-wrap gap-4 justify-center sm:justify-between">
         {currentReivews.map((review) => (
