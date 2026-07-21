@@ -3,6 +3,7 @@ import { Carousel } from "@/components/Carousel";
 import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
+import Link from "next/link";
 import {
   EntryAnalytics,
   Experience,
@@ -21,7 +22,7 @@ export default function Home({ landingPageProps }) {
   const { track } = useNinetailed();
 
   return (
-    <section className="m-auto flex justify-center flex-col px-2">
+    <section className="w-full">
       <SeoData
         title={seoMetadata.fields.title}
         description={seoMetadata.fields.description}
@@ -31,19 +32,51 @@ export default function Home({ landingPageProps }) {
         publishedTime={seoMetadata.sys.publishedAt}
         updatedTime={seoMetadata.sys.updatedAt}
       />
-      <h1 className="text-bold text-8xl italic mt-4 mb-12">
-        {landingPageTitle}
-      </h1>
-      <EntryAnalytics
-        id={landingPageProps.sys.id}
-        component={Carousel}
-        passthroughProps={{ carousel }}
-      />
-      <div className="mt-8 w-full">
-        <h2 className="text-3xl text-bold my-12">
-          Some of our featured reviews and articles
-        </h2>
-        <div className="flex w-full gap-6 justify-center sm:justify-between flex-wrap">
+
+      <div className="grid md:grid-cols-2 border-b-2 border-divider">
+        <div className="flex flex-col justify-center gap-5 px-2 py-12 md:py-16">
+          <span className="text-[12px] tracking-[0.12em] uppercase text-accent-700">
+            Discovering the world, one cup at a time
+          </span>
+          <h1 className="font-archivo font-extrabold text-[clamp(40px,4.6vw,60px)]">
+            {landingPageTitle}
+          </h1>
+          <p className="max-w-[44ch] text-ink/80">
+            We travel to the source, cup with the roasters and farmers behind
+            the beans, and write up honest, unranked notes on what actually
+            ends up in your mug.
+          </p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Link
+              href="/reviews"
+              className="inline-flex bg-accent text-bg px-4 py-2 font-archivo font-semibold hover:bg-accent-600"
+            >
+              Explore reviews -&gt;
+            </Link>
+            <a
+              href="#how-we-score"
+              className="inline-flex border-2 border-divider px-4 py-2 font-archivo font-semibold"
+            >
+              How we score
+            </a>
+          </div>
+        </div>
+        <div className="border-l-2 border-divider min-h-[440px] overflow-hidden">
+          <EntryAnalytics
+            id={landingPageProps.sys.id}
+            component={Carousel}
+            passthroughProps={{ carousel }}
+          />
+        </div>
+      </div>
+
+      <div className="w-full px-2 py-12">
+        <div className="flex items-baseline justify-between mb-6">
+          <span className="text-[12px] tracking-[0.12em] uppercase text-accent-700">
+            Featured reviews
+          </span>
+        </div>
+        <div className="grid gap-[22px] sm:grid-cols-2 lg:grid-cols-3">
           {featuredArticles?.map((article) => (
             <div
               key={article.sys.id}
@@ -63,9 +96,13 @@ export default function Home({ landingPageProps }) {
           ))}
         </div>
       </div>
-      <article className="w-full my-8">
-        <RichText pageInformation={pageInformation} />
-      </article>
+
+      <div id="how-we-score">
+        <hr className="h-[2px] bg-divider border-0" />
+        <article className="w-full px-2 py-12">
+          <RichText pageInformation={pageInformation} />
+        </article>
+      </div>
     </section>
   );
 }
