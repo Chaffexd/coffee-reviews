@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Navbar />
-      <main className="sm:px-56 max-w-screen-2xl m-auto">{children}</main>
+      <main className="max-w-[1200px] mx-auto px-[clamp(24px,4vw,56px)]">{children}</main>
       <Footer />
     </>
   );

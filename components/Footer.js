@@ -1,23 +1,32 @@
 import Link from "next/link";
 import React from "react";
 
+const footerLinks = [
+  { href: "/reviews", label: "Reviews" },
+  { href: "/articles", label: "Articles" },
+  { href: "/about", label: "About" },
+];
+
 const Footer = () => {
   return (
-    <footer className="invisible sm:visible w-full sm:py-8 px-56 border-t-slate-150 border-t-2 max-w-screen-2xl m-auto">
-      <ul className="flex justify-end">
-        <Link href={"/"} className="mr-8 hover:underline">
-          Coffee Review
+    <footer className="w-full border-t-2 border-divider py-8 px-[clamp(24px,4vw,56px)]">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <Link href={"/"} className="font-archivo font-extrabold text-[19px]">
+          The Coffee Review
         </Link>
-        <Link href={"/reviews"} className="mr-8 hover:underline">
-          Reviews
-        </Link>
-        <Link href={"/articles"} className="mr-8 hover:underline">
-          Articles
-        </Link>
-        <Link href={"/about"} className="mr-8 hover:underline">
-          About
-        </Link>
-      </ul>
+        <ul className="flex items-center">
+          {footerLinks.map(({ href, label }) => (
+            <li key={href}>
+              <Link href={href} className="mr-8 last:mr-0 text-[14px] font-semibold hover:text-accent">
+                {label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p className="mt-4 text-[12px] text-ink/60">
+        (c) 2026 The Coffee Review - @ShaneChaffe - Unbiased since day one
+      </p>
     </footer>
   );
 };
