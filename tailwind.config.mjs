@@ -15,6 +15,11 @@ export default {
 				creamLight: '#F5E6CC',
 				creamDark: '#E5D4B5'
 			},
+  			bg: "#f3f2f2",
+  			surface: "#eae9e9",
+  			ink: "#201e1d",
+  			divider: "rgba(32,30,29,0.4)",
+  			land: "#d7d3d3",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -38,7 +43,11 @@ export default {
   				foreground: 'hsl(var(--muted-foreground))'
   			},
   			accent: {
-  				DEFAULT: 'hsl(var(--accent))',
+  				DEFAULT: "#ec3013",
+  				100: "#fff2ef",
+  				600: "#dd2b0f",
+  				700: "#ae1800",
+  				800: "#7c1405",
   				foreground: 'hsl(var(--accent-foreground))'
   			},
   			destructive: {
@@ -55,6 +64,9 @@ export default {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			}
+  		},
+  		fontFamily: {
+  			archivo: ['Archivo', 'system-ui', 'sans-serif'],
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
