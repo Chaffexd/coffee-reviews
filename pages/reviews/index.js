@@ -55,12 +55,13 @@ const ReviewsPage = ({ reviewsProps }) => {
     });
   };
 
-  const sorted = [...filteredReviews].sort(
-    (a, b) => (b.fields.coffeeRating || 0) - (a.fields.coffeeRating || 0),
-  );
-
+  // Order comes from getStaticProps (Contentful "-sys.createdAt"), so the grid
+  // shows the newest-added reviews first.
   const startIndex = (currentPage - 1) * reviewsPerPage;
-  const currentReivews = sorted.slice(startIndex, startIndex + reviewsPerPage);
+  const currentReivews = filteredReviews.slice(
+    startIndex,
+    startIndex + reviewsPerPage,
+  );
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -97,7 +98,7 @@ const ReviewsPage = ({ reviewsProps }) => {
 
       <div className="flex items-end justify-between flex-wrap gap-3">
         <div>
-          <p className="text-accent-700 uppercase tracking-[0.12em] text-[12px] font-semibold">
+          <p className="text-accent-700 uppercase tracking-[0.12em] text-[12px] font-semibold mt-10">
             Every cup, scored
           </p>
           <h1 className="font-archivo font-extrabold text-[clamp(38px,4.4vw,54px)]">
