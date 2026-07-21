@@ -39,15 +39,7 @@ const ArticleCard = ({ article }) => {
           {pageTitle}
         </h3>
         {coffeeRating != null && <BeanRating rating={coffeeRating} />}
-        <p
-          className="text-[13px] text-ink/70 line-clamp-2"
-          style={{
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-          }}
-        >
+        <p className="text-[13px] text-ink/70 line-clamp-2">
           {articleIntroSnippet}
         </p>
       </div>

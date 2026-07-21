@@ -10,9 +10,9 @@ const ContentArticleCard = ({ article }) => {
       href={`/articles/${slug}`}
       className="group block border-t-2 border-divider py-8 hover:text-accent transition-colors"
     >
-      <span className="inline-flex text-[11px] px-2.5 py-[3px] bg-[#f8f4f4] text-ink/70">
+      <time dateTime={dateOfPublication} className="inline-flex text-[11px] px-2.5 py-[3px] bg-[#f8f4f4] text-ink/70">
         {formatDate(dateOfPublication)}
-      </span>
+      </time>
       <h2 className="mt-3 font-archivo font-extrabold text-[28px] group-hover:text-accent">
         {title}
       </h2>

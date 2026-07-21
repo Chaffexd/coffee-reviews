@@ -66,7 +66,7 @@ const ReviewDetailContent = ({ reviewPageProps }) => {
       <div className="mb-8">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <p className="text-accent-700 uppercase tracking-[0.12em] text-[12px] font-semibold">
-            {region ? `${region} · ` : ""}Reviewed {formatDate(reviewDate)}
+            {region ? `${region} · ` : ""}Reviewed <time dateTime={reviewDate}>{formatDate(reviewDate)}</time>
           </p>
           <div className="flex items-center gap-2">
             <button
@@ -113,7 +113,7 @@ const ReviewDetailContent = ({ reviewPageProps }) => {
           <div className="pb-5 mb-5 border-b-2 border-divider">
             <div className="flex items-baseline gap-2">
               <span className="text-[40px] text-accent font-archivo font-extrabold">
-                {beanScore(coffeeRating)}
+                {beanScore(coffeeRating).toFixed(1)}
               </span>
               <span className="text-[13px] text-ink/70">out of 5 beans</span>
             </div>

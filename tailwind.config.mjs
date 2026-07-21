@@ -19,7 +19,7 @@ export default {
   			surface: "#eae9e9",
   			ink: "#201e1d",
   			divider: "rgba(32,30,29,0.4)",
-  			land: "#d7d3d3",
+  			land: "#d7d3d3", // mirrors GoogleMap muted map style
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

@@ -16,7 +16,6 @@ const RegionFilter = ({ handleFilter, counts = {}, active = "all" }) => {
           <button
             key={option.value}
             onClick={() => handleFilter(option.value)}
-            value={option.value}
             className={`px-3 py-[7px] text-[13px] font-semibold border-l border-divider first:border-l-0 ${
               isActive ? "bg-accent text-bg" : "bg-surface text-ink"
             }`}

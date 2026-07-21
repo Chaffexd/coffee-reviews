@@ -26,16 +26,17 @@ const Navbar = () => {
           {navLinks.map(({ href, label }) => {
             const isActive = router.pathname.startsWith(href);
             return (
-              <Link
-                key={href}
-                href={href}
-                aria-current={isActive ? "page" : undefined}
-                className={`mr-8 text-[14px] font-semibold hover:text-accent ${
-                  isActive ? "text-accent" : ""
-                }`}
-              >
-                {label}
-              </Link>
+              <li key={href}>
+                <Link
+                  href={href}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`mr-8 text-[14px] font-semibold hover:text-accent ${
+                    isActive ? "text-accent" : ""
+                  }`}
+                >
+                  {label}
+                </Link>
+              </li>
             );
           })}
         </ul>

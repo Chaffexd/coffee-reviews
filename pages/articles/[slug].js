@@ -36,7 +36,7 @@ const ArticleDetailContent = ({ article }) => {
 
       <header className="mb-11 pb-8 border-b-2 border-divider">
         <p className="text-accent-700 uppercase tracking-[0.12em] text-[12px] font-semibold">
-          Article &middot; {formatDate(dateOfPublication)}
+          Article &middot; <time dateTime={dateOfPublication}>{formatDate(dateOfPublication)}</time>
         </p>
         <h1 className="font-archivo font-extrabold text-[clamp(36px,4.4vw,56px)] mt-3">
           {title}
