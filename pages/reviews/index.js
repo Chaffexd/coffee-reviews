@@ -75,7 +75,9 @@ const ReviewsPage = ({ reviewsProps }) => {
       (review) => review.fields.region?.toLowerCase() === "europe",
     ).length,
     "north-america": reviewsProps.filter(
-      (review) => review.fields.region?.toLowerCase() === "north america",
+      (review) =>
+        review.fields.region?.toLowerCase().replace(/\s+/g, "-") ===
+        "north-america",
     ).length,
   };
 
@@ -113,7 +115,7 @@ const ReviewsPage = ({ reviewsProps }) => {
           active={region || "all"}
         />
       </div>
-      <div className="flex w-full flex-wrap gap-4 justify-center sm:justify-between">
+      <div className="grid w-full gap-[22px] sm:grid-cols-2 lg:grid-cols-3">
         {currentReivews.map((review) => (
           <div
             key={review.sys.id}
