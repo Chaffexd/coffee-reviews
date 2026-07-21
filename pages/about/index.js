@@ -53,7 +53,7 @@ const AboutPage = ({ aboutPageProps }) => {
         updatedTime={seoMetadata.sys.updatedAt}
       />
 
-      <p className="text-accent-700 uppercase tracking-[0.12em] text-[12px] font-semibold">
+      <p className="text-accent-700 uppercase tracking-[0.12em] text-[12px] font-semibold mt-10">
         The story
       </p>
       <h1 className="font-archivo font-extrabold text-[clamp(44px,6vw,84px)] max-w-[16ch]">
@@ -72,7 +72,7 @@ const AboutPage = ({ aboutPageProps }) => {
           />
         </div>
 
-        <p className="mt-8 max-w-[720px] text-ink/80">
+        <p className="mt-8 w-full text-ink/80">
           Thanks for taking the time to check out the site, what started as a
           hobby project that was solely for testing out how to properly follow
           one of many localisation patterns turned out to be a passion project
