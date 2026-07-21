@@ -7,5 +7,5 @@ dotenv.config({
 
 jest.mock("next/config", () => () => ({
   publicRuntimeConfig: {},
-}));
+}), { virtual: true });
 
