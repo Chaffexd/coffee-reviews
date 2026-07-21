@@ -7,10 +7,10 @@ import { formatDate } from "@/lib/formatDate";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
-import { IoMdArrowBack } from "react-icons/io";
 import { CiShare1 } from "react-icons/ci";
 import Link from "next/link";
 import { EntryAnalytics, useNinetailed } from "@ninetailed/experience.js-next";
+import BeanRating, { StampScore, beanScore } from "@/components/BeanRating";
 
 const ReviewDetailContent = ({ reviewPageProps }) => {
   const router = useRouter();
@@ -40,11 +40,12 @@ const ReviewDetailContent = ({ reviewPageProps }) => {
     coffeeRating,
     reviewDate,
     articleContent,
+    region,
     seoMetadata,
   } = reviewPageProps?.fields;
 
   return (
-    <article className="text-xl px-4 sm:px-0">
+    <article className="px-4 sm:px-0 pb-20">
       <SeoData
         title={`${seoMetadata.fields.title} | The Coffee Review`}
         description={seoMetadata.fields.description}
@@ -54,64 +55,109 @@ const ReviewDetailContent = ({ reviewPageProps }) => {
         publishedTime={seoMetadata.sys.publishedAt}
         updatedTime={seoMetadata.sys.updatedAt}
       />
-      <div className="mb-20">
-        <div className="flex flex-wrap items-center">
-          <h1 className="text-7xl mr-8 mb-6">{pageTitle}</h1>
-          <span className="rounded-full bg-yellow-300 h-24 w-24 flex justify-center items-center">
-            <p className="font-bold text-4xl">{coffeeRating}</p>
-            <span className="text-xs">/ 100</span>
-          </span>
+
+      <Link
+        href={"/reviews"}
+        className="inline-block mb-8 text-accent text-[14px] font-semibold"
+      >
+        &lt;- All reviews
+      </Link>
+
+      <div className="mb-8">
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <p className="text-accent-700 uppercase tracking-[0.12em] text-[12px] font-semibold">
+            {region ? `${region} · ` : ""}Reviewed {formatDate(reviewDate)}
+          </p>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={copyLinkToClipboard}
+              className="flex items-center gap-1 text-accent text-[13px] font-semibold hover:cursor-pointer"
+            >
+              <CiShare1 />
+              Share
+            </button>
+            {copied && (
+              <span className="text-[12px] text-ink/60">Copied!</span>
+            )}
+          </div>
         </div>
-        <Link href={"/reviews"} className="max-w-[22px] my-5 block">
-          <IoMdArrowBack />
-        </Link>
-        <time className="my-4 block italic">{formatDate(reviewDate)}</time>
-        <div className="flex items-center mb-4 h-[26px]">
-          <CiShare1
-            className="hover:cursor-pointer"
-            onClick={copyLinkToClipboard}
-          />
-          {copied && (
-            <span className="relative ml-2 h-[24px] bg-gray-800 text-white text-xs px-2 py-1 rounded shadow">
-              Copied!
-            </span>
-          )}
-        </div>
-        <p className="mb-4">{articleIntroSnippet}</p>
+        <h1 className="font-archivo font-extrabold text-[clamp(40px,4.6vw,64px)] mt-3">
+          {pageTitle}
+        </h1>
+        {articleIntroSnippet && (
+          <p className="mt-3 max-w-[64ch] text-ink/80 text-[17px]">
+            {articleIntroSnippet}
+          </p>
+        )}
+      </div>
+
+      <div className="relative aspect-[16/7] border-2 border-divider overflow-hidden mb-11">
         <Image
           src={`https:${articlePreviewImage.fields.image.fields.file.url}`}
           alt={articlePreviewImage.fields.image.fields.description}
-          width={800}
-          height={400}
-          className="m-auto"
+          fill
+          className="object-cover"
         />
+        <div className="absolute bottom-6 right-6">
+          <StampScore rating={coffeeRating} />
+        </div>
       </div>
-      <section className="max-w-4xl m-auto mb-20">
-        <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
-          <Map
-            style={{ width: "100%", height: "500px" }}
-            defaultCenter={{
-              lat: storeLocation.lat,
-              lng: storeLocation.lon,
-            }}
-            defaultZoom={13}
-            gestureHandling={"greedy"}
-            disableDefaultUI={true}
-            zoomControl={true}
-            mapTypeId="roadmap"
-          >
-            <Marker
-              position={{
-                lat: storeLocation.lat,
-                lng: storeLocation.lon,
-              }}
+
+      <div className="grid lg:grid-cols-[1fr_320px] gap-11">
+        <div className="max-w-[64ch] text-[16.5px] leading-[1.7]">
+          <RichText pageInformation={articleContent} />
+        </div>
+
+        <aside className="lg:sticky lg:top-20 h-fit bg-surface border-2 border-divider p-[22px]">
+          <div className="pb-5 mb-5 border-b-2 border-divider">
+            <div className="flex items-baseline gap-2">
+              <span className="text-[40px] text-accent font-archivo font-extrabold">
+                {beanScore(coffeeRating)}
+              </span>
+              <span className="text-[13px] text-ink/70">out of 5 beans</span>
+            </div>
+            <BeanRating
+              rating={coffeeRating}
+              showValue={false}
+              size={20}
+              className="mt-2"
             />
-          </Map>
-        </APIProvider>
-      </section>
-      <section className="mb-20">
-        <RichText pageInformation={articleContent} />
-      </section>
+          </div>
+
+          <div>
+            <p className="text-[12px] uppercase tracking-[0.12em] text-accent-700 font-semibold mb-2">
+              Find it
+            </p>
+            <div className="h-[150px] border-2 border-divider overflow-hidden">
+              <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+                <Map
+                  style={{ width: "100%", height: "100%" }}
+                  defaultCenter={{
+                    lat: storeLocation.lat,
+                    lng: storeLocation.lon,
+                  }}
+                  defaultZoom={13}
+                  gestureHandling={"greedy"}
+                  disableDefaultUI={true}
+                  zoomControl={true}
+                  mapTypeId="roadmap"
+                >
+                  <Marker
+                    position={{
+                      lat: storeLocation.lat,
+                      lng: storeLocation.lon,
+                    }}
+                  />
+                </Map>
+              </APIProvider>
+            </div>
+            <p className="mt-2 text-[13px] text-ink/70">
+              {region || "Approximate location"}
+            </p>
+          </div>
+        </aside>
+      </div>
     </article>
   );
 };
