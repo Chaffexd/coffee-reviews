@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import BeanRating from "@/components/BeanRating";
 
-const ArticleCard = ({ article }) => {
+const ArticleCard = ({ article, showRegion = true }) => {
 
   const {
     articleIntroSnippet,
@@ -30,7 +30,7 @@ const ArticleCard = ({ article }) => {
         />
       </div>
       <div className="p-[18px]">
-        {region && (
+        {showRegion && region && (
           <span className="inline-flex text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">
             {region}
           </span>

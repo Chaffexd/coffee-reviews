@@ -51,7 +51,7 @@ export default function Home({ landingPageProps }) {
               href="/reviews"
               className="inline-flex bg-accent text-bg px-4 py-2 font-archivo font-semibold hover:bg-accent-600"
             >
-              Explore reviews -&gt;
+              Explore reviews
             </Link>
             <a
               href="#how-we-score"
@@ -91,6 +91,7 @@ export default function Home({ landingPageProps }) {
                 id={article.sys.id}
                 component={ArticleCard}
                 article={article}
+                showRegion={false}
               />
             </div>
           ))}
