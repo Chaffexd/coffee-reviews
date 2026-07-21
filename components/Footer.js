@@ -16,7 +16,7 @@ const Footer = () => {
         </Link>
         <ul className="flex items-center">
           {footerLinks.map(({ href, label }) => (
-            <li key={href}>
+            <li key={href} className="ml-8">
               <Link href={href} className="mr-8 last:mr-0 text-[14px] font-semibold hover:text-accent">
                 {label}
               </Link>
@@ -25,7 +25,7 @@ const Footer = () => {
         </ul>
       </div>
       <p className="mt-4 text-[12px] text-ink/60">
-        (c) 2026 The Coffee Review - @ShaneChaffe - Unbiased since day one
+        (c) 2026 The Coffee Review - Unbiased since day one
       </p>
     </footer>
   );
