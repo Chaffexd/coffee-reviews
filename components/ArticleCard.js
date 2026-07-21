@@ -29,7 +29,7 @@ const ArticleCard = ({ article, showRegion = true }) => {
           className="h-full w-full object-cover transition-transform duration-[400ms] group-hover:scale-105"
         />
       </div>
-      <div className="flex flex-1 flex-col p-[18px]">
+      <div className="flex-1 p-[18px]">
         {showRegion && region && (
           <span className="inline-flex text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">
             {region}
