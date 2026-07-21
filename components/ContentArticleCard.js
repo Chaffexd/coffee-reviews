@@ -8,28 +8,21 @@ const ContentArticleCard = ({ article }) => {
   return (
     <Link
       href={`/articles/${slug}`}
-      className="group flex h-full flex-col justify-between border-4 border-stone-300 bg-white p-6 transition-colors hover:border-coffee-medium sm:p-10"
+      className="group block border-t-2 border-divider py-8 hover:text-accent transition-colors"
     >
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-        <div className="max-w-3xl">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.24em] text-coffee-medium">
-            Article
-          </p>
-          <h2 className="text-3xl font-bold leading-tight text-stone-800 sm:text-5xl">
-            {title}
-          </h2>
-        </div>
-        <time className="shrink-0 text-lg font-semibold text-stone-700 sm:text-2xl">
-          {formatDate(dateOfPublication)}
-        </time>
-      </div>
+      <span className="inline-flex text-[11px] px-2.5 py-[3px] bg-[#f8f4f4] text-ink/70">
+        {formatDate(dateOfPublication)}
+      </span>
+      <h2 className="mt-3 font-archivo font-extrabold text-[28px] group-hover:text-accent">
+        {title}
+      </h2>
       {excerpt ? (
-        <p className="mt-10 max-w-5xl text-xl leading-relaxed text-stone-800 sm:text-3xl">
+        <p className="max-w-[60ch] text-ink/70 mt-2">
           {excerpt.length > 260 ? `${excerpt.slice(0, 257)}...` : excerpt}
         </p>
       ) : null}
-      <div className="mt-10 text-2xl font-bold text-coffee-medium transition-transform group-hover:translate-x-1">
-        Read Complete Article &gt;
+      <div className="mt-4 text-accent font-semibold">
+        Read complete article -&gt;
       </div>
     </Link>
   );

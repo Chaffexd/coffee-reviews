@@ -19,18 +19,18 @@ const ArticlesPage = ({ articles }) => {
         updatedTime={currentDateTime}
       />
       <header className="mb-12 max-w-3xl">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.24em] text-coffee-medium">
+        <p className="text-accent-700 uppercase tracking-[0.12em] text-[12px] font-semibold">
           Editorial
         </p>
-        <h1 className="text-5xl font-bold text-stone-900 sm:text-6xl">
+        <h1 className="mt-2 font-archivo font-extrabold text-[clamp(38px,4.4vw,54px)]">
           Articles
         </h1>
-        <p className="mt-4 text-xl text-stone-700">
+        <p className="mt-4 text-ink/70">
           Essays, brewing notes, and longer-form writing from The Coffee Review.
         </p>
       </header>
       {articles.length ? (
-        <div className="grid gap-8">
+        <div>
           {articles.map((article) => (
             <div
               key={article.sys.id}
@@ -50,7 +50,7 @@ const ArticlesPage = ({ articles }) => {
           ))}
         </div>
       ) : (
-        <div className="border-4 border-dashed border-stone-300 px-6 py-10 text-xl text-stone-700">
+        <div className="border-2 border-divider p-10 text-ink/70">
           No articles were written, tis a sad day.
         </div>
       )}
