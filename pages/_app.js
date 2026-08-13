@@ -1,6 +1,9 @@
 import Layout from "@/components/Layout";
 import "@/styles/globals.css";
-import { NinetailedProvider } from "@ninetailed/experience.js-next";
+import {
+  NinetailedProvider,
+  NinetailedSsrPlugin,
+} from "@ninetailed/experience.js-next";
 import { NinetailedInsightsPlugin } from "@ninetailed/experience.js-plugin-insights";
 import { NinetailedPreviewPlugin } from "@ninetailed/experience.js-plugin-preview";
 import { useMemo } from "react";
@@ -27,7 +30,17 @@ export default function App({ Component, pageProps }) {
   const audiences = pageProps.ninetailedAudiences ?? NO_AUDIENCES;
 
   const plugins = useMemo(() => {
-    const enabled = [new NinetailedInsightsPlugin()];
+    // Keeps the same visitor across reloads. On init it reads the `ntaid` cookie
+    // into storage as the anonymous id; on every profile change it writes the
+    // profile id back out, 365 days by default.
+    //
+    // Without it each load mints a fresh profile, so profile.stableId changes
+    // every visit — and the traffic and distribution hashes are derived from
+    // stableId (`traffic-${experience.id}-${profile.stableId}`), so assignment
+    // is re-rolled on every page view. Harmless for audience personalizations,
+    // fatal for an experiment: the same person lands in a different bucket each
+    // time and the results mean nothing.
+    const enabled = [new NinetailedSsrPlugin(), new NinetailedInsightsPlugin()];
 
     if (isPreviewEnabled) {
       enabled.push(new NinetailedPreviewPlugin({ experiences, audiences }));
