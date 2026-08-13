@@ -38,7 +38,8 @@ additive migrations like 002 are low risk.
 | Migration | master |
 |---|---|
 | `001-create-featured-reviews-block` | Applied via CMA, not via this script |
-| `002-add-featured-reviews-block-to-page` | Pending |
+| `002-add-featured-reviews-block-to-page` | Applied via the web app, not via this script |
 
-001 is kept so a fresh environment can be built from migrations alone. Running
-it against `master` will fail with "content type already exists" — expected.
+Both are kept so a fresh environment can be built from migrations alone.
+Running either against `master` will fail — 001 with "content type already
+exists", 002 with a duplicate field id. That is expected.
