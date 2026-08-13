@@ -1,21 +1,31 @@
-import ArticleCard from "@/components/ArticleCard";
 import { Carousel } from "@/components/Carousel";
+import FeaturedReviews, {
+  RenderBaselineWhileLoading,
+} from "@/components/FeaturedReviews";
 import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
 import Link from "next/link";
-import { EntryAnalytics, useNinetailed } from "@ninetailed/experience.js-next";
+import { EntryAnalytics, Experience } from "@ninetailed/experience.js-next";
+import { ExperienceMapper } from "@ninetailed/experience.js-utils-contentful";
 
 export default function Home({ landingPageProps }) {
   const {
     carousel,
     landingPageTitle,
     featuredArticles,
+    featuredReviewsBlock,
     pageInformation,
     seoMetadata,
   } = landingPageProps.fields;
 
-  const { track } = useNinetailed();
+  // Unpublished experiences and variants arrive as unresolvable links, which
+  // .withoutUnresolvableLinks strips. isExperienceEntry drops whatever is left
+  // that does not validate, so a half-published experience degrades to the
+  // baseline rather than throwing.
+  const experiences = (featuredReviewsBlock?.fields?.nt_experiences || [])
+    .filter(ExperienceMapper.isExperienceEntry)
+    .map(ExperienceMapper.mapExperience);
 
   return (
     <section className="w-full">
@@ -66,34 +76,20 @@ export default function Home({ landingPageProps }) {
         </div>
       </div>
 
-      <div className="w-full px-2 py-12">
-        <div className="flex items-baseline justify-between mb-6">
-          <span className="text-[12px] tracking-[0.12em] uppercase text-accent-700">
-            Featured reviews
-          </span>
-        </div>
-        <div className="grid gap-[22px] sm:grid-cols-2 lg:grid-cols-3">
-          {featuredArticles?.map((article) => (
-            <div
-              key={article.sys.id}
-              className="h-full"
-              onClick={() =>
-                track("article_click", {
-                  articleId: article.sys.id,
-                  articleTitle: article.fields.pageTitle,
-                })
-              }
-            >
-              <EntryAnalytics
-                id={article.sys.id}
-                component={ArticleCard}
-                article={article}
-                showRegion={false}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
+      {featuredReviewsBlock ? (
+        <Experience
+          {...featuredReviewsBlock.fields}
+          id={featuredReviewsBlock.sys.id}
+          component={FeaturedReviews}
+          experiences={experiences}
+          loadingComponent={RenderBaselineWhileLoading}
+          trackClicks
+        />
+      ) : (
+        // Falls back to the original field until the block is linked on the
+        // page entry. Clearing featuredReviewsBlock is also the rollback.
+        <FeaturedReviews reviews={featuredArticles} />
+      )}
 
       <div id="how-we-score">
         <hr className="h-[2px] bg-divider border-0" />
