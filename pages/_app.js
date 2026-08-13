@@ -34,6 +34,16 @@ export default function App({ Component, pageProps }) {
       environment={process.env.NEXT_PUBLIC_NINETAILED_ENVIRONMENT}
       plugins={plugins}
       componentViewTrackingThreshold={2000}
+      // Decide variants in the SDK from the experiences we already fetch out of
+      // Contentful, matched against profile.audiences. The default (false)
+      // instead waits for the Experience API to return a selection per
+      // experience, so nothing personalizes until the CMS has synced to it —
+      // audiences arrive quickly, experiences do not.
+      //
+      // Fine for personalizations, which are deterministic on audience. Revisit
+      // when adding an A/B test: server-side assignment is what keeps traffic
+      // bucketing and experiment reporting consistent across devices.
+      useSDKEvaluation
     >
       <Layout>
         <Component {...pageProps} />
