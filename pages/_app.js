@@ -5,8 +5,16 @@ import { NinetailedInsightsPlugin } from "@ninetailed/experience.js-plugin-insig
 import { NinetailedPreviewPlugin } from "@ninetailed/experience.js-plugin-preview";
 import { useMemo } from "react";
 
-// The preview widget does not disable itself in production, so gate it here.
-const isPreviewBuild = process.env.NODE_ENV !== "production";
+// Opt in explicitly, never just "in development".
+//
+// The preview plugin registers an experience-selection middleware that runs
+// after selection and overrides the result. When nothing has been force-picked
+// in the widget its experienceVariantIndexes is empty, so it finds no match and
+// rewrites the outcome to {experience: null, variant: baseline, variantIndex: 0}
+// — suppressing every personalization while leaving isPersonalized true. Useful
+// when you are deliberately previewing an audience, actively misleading when you
+// are trying to see the real thing.
+const isPreviewEnabled = process.env.NEXT_PUBLIC_NINETAILED_PREVIEW === "true";
 
 // Stable empty defaults. Inline literals would give the useMemo below a new
 // dependency identity on every render, which would rebuild the plugins and tear
@@ -21,7 +29,7 @@ export default function App({ Component, pageProps }) {
   const plugins = useMemo(() => {
     const enabled = [new NinetailedInsightsPlugin()];
 
-    if (isPreviewBuild) {
+    if (isPreviewEnabled) {
       enabled.push(new NinetailedPreviewPlugin({ experiences, audiences }));
     }
 
