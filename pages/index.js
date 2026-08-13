@@ -5,9 +5,9 @@ import FeaturedReviews, {
 import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
+import { mapEntryExperiences } from "@/lib/experiences";
 import Link from "next/link";
 import { EntryAnalytics, Experience } from "@ninetailed/experience.js-next";
-import { ExperienceMapper } from "@ninetailed/experience.js-utils-contentful";
 
 export default function Home({ landingPageProps }) {
   const {
@@ -19,13 +19,7 @@ export default function Home({ landingPageProps }) {
     seoMetadata,
   } = landingPageProps.fields;
 
-  // Unpublished experiences and variants arrive as unresolvable links, which
-  // .withoutUnresolvableLinks strips. isExperienceEntry drops whatever is left
-  // that does not validate, so a half-published experience degrades to the
-  // baseline rather than throwing.
-  const experiences = (featuredReviewsBlock?.fields?.nt_experiences || [])
-    .filter(ExperienceMapper.isExperienceEntry)
-    .map(ExperienceMapper.mapExperience);
+  const experiences = mapEntryExperiences(featuredReviewsBlock);
 
   return (
     <section className="w-full">
