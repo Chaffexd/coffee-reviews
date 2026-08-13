@@ -158,7 +158,7 @@ export async function getStaticProps({ locale }) {
 
   const allReviews = await client.getEntries({
     content_type: "article",
-    include: 5,
+    include: 10,
     locale,
     order: "-sys.createdAt",
   });
@@ -173,5 +173,6 @@ export async function getStaticProps({ locale }) {
     props: {
       reviewsProps,
     },
+    revalidate: 60,
   };
 }

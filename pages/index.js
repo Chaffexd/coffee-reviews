@@ -4,11 +4,7 @@ import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
 import Link from "next/link";
-import {
-  EntryAnalytics,
-  Experience,
-  useNinetailed,
-} from "@ninetailed/experience.js-next";
+import { EntryAnalytics, useNinetailed } from "@ninetailed/experience.js-next";
 
 export default function Home({ landingPageProps }) {
   const {
@@ -116,7 +112,7 @@ export async function getStaticProps({ locale }) {
 
   const landingPage = await client.getEntries({
     content_type: "page",
-    include: 5,
+    include: 10,
     "fields.slug[match]": "/",
     locale,
   });
@@ -127,5 +123,8 @@ export async function getStaticProps({ locale }) {
     props: {
       landingPageProps,
     },
+    // Without this, experiences attached in Contentful only appear after a
+    // redeploy.
+    revalidate: 60,
   };
 }

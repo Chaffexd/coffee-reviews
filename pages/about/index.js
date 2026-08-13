@@ -139,7 +139,7 @@ export async function getStaticProps({ locale }) {
 
   const aboutPage = await client.getEntries({
     content_type: "article",
-    include: 5,
+    include: 10,
     locale,
   });
 
@@ -149,5 +149,6 @@ export async function getStaticProps({ locale }) {
     props: {
       aboutPageProps,
     },
+    revalidate: 60,
   };
 }

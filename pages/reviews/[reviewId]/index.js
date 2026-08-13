@@ -197,7 +197,7 @@ export async function getStaticProps({ locale, params }) {
   const { reviewId } = params;
   const reviewPage = await client.getEntries({
     content_type: "article",
-    include: 5,
+    include: 10,
     "fields.slug[match]": reviewId,
     locale,
   });
