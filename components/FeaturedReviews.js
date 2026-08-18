@@ -61,4 +61,27 @@ export const RenderBaselineWhileLoading = ({
   passthroughProps,
   experiences,
   ...baseline
-}) => <Component {...baseline} {...passthroughProps} />;
+}) => {
+  const baselineContent = <Component {...baseline} {...passthroughProps} />;
+
+  if (process.env.NODE_ENV === "production") {
+    return baselineContent;
+  }
+
+  // Rendering the baseline makes "still resolving" and "resolved to the
+  // baseline" pixel-identical, so a selection that never completes — or one
+  // silently overridden by a plugin — looks exactly like working software.
+  // Outline rather than border, and an absolute label, so nothing reflows and
+  // the dev view still matches production layout.
+  return (
+    <div
+      data-nt-state="resolving"
+      className="relative outline-dashed outline-2 outline-offset-[-2px] outline-accent/40"
+    >
+      <span className="absolute right-0 top-0 z-10 bg-accent px-2 py-[2px] font-archivo text-[10px] font-semibold uppercase tracking-[0.1em] text-bg">
+        Resolving variant
+      </span>
+      {baselineContent}
+    </div>
+  );
+};
