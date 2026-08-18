@@ -5,6 +5,7 @@ import FeaturedReviews, {
 import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
+import { getGreetingBanner } from "@/lib/getGreetingBanner";
 import { mapEntryExperiences } from "@/lib/experiences";
 import Link from "next/link";
 import { EntryAnalytics, Experience } from "@ninetailed/experience.js-next";
@@ -109,9 +110,12 @@ export async function getStaticProps({ locale }) {
 
   const landingPageProps = landingPage.items[0];
 
+  const banner = await getGreetingBanner(locale);
+
   return {
     props: {
       landingPageProps,
+      banner,
     },
     // Without this, experiences attached in Contentful only appear after a
     // redeploy.

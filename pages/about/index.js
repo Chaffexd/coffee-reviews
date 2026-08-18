@@ -1,6 +1,7 @@
 import GoogleMap from "@/components/GoogleMap";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
+import { getGreetingBanner } from "@/lib/getGreetingBanner";
 import { availableLocales } from "@/lib/locales";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -146,9 +147,12 @@ export async function getStaticProps({ locale }) {
 
   const aboutPageProps = aboutPage.items;
 
+  const banner = await getGreetingBanner(locale);
+
   return {
     props: {
       aboutPageProps,
+      banner,
     },
     revalidate: 60,
   };

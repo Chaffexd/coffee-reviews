@@ -3,6 +3,7 @@ import PaginationButton from "@/components/PaginationButton";
 import RegionFilter from "@/components/RegionFilter";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
+import { getGreetingBanner } from "@/lib/getGreetingBanner";
 import { currentDateTime } from "@/lib/currentTime";
 import { EntryAnalytics, useNinetailed } from "@ninetailed/experience.js-next";
 import { useRouter } from "next/router";
@@ -172,9 +173,12 @@ export async function getStaticProps({ locale }) {
 
   const reviewsProps = allReviews.items;
 
+  const banner = await getGreetingBanner(locale);
+
   return {
     props: {
       reviewsProps,
+      banner,
     },
     revalidate: 60,
   };

@@ -68,7 +68,9 @@ export default function App({ Component, pageProps }) {
       // indexed by variantIndex — and both honour the nt_experiences array order
       // on the baseline entry, so precedence is unchanged.
     >
-      <Layout>
+      {/* Layout has no data fetching of its own, so the banner entry rides in
+          on pageProps from each page's getStaticProps. */}
+      <Layout banner={pageProps.banner}>
         <Component {...pageProps} />
       </Layout>
     </NinetailedProvider>
