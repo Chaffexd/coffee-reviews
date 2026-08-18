@@ -6,7 +6,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
     "migrate": "contentful space migration --space-id $CONTENTFUL_SPACE_ID --environment-id ${CONTENTFUL_ENVIRONMENT_ID:-master}"
