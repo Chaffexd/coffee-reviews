@@ -6,15 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "migrate": "contentful space migration --space-id $CONTENTFUL_SPACE_ID --environment-id ${CONTENTFUL_ENVIRONMENT_ID:-master}"
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^16.0.1",
     "@contentful/rich-text-types": "^17.0.0",
     "@ninetailed/experience.js-next": "^7.21.3",
     "@ninetailed/experience.js-plugin-insights": "^7.21.3",
+    "@ninetailed/experience.js-plugin-preview": "^7.21.3",
+    "@ninetailed/experience.js-utils-contentful": "^7.21.3",
     "@radix-ui/react-dialog": "^1.1.4",
     "@vis.gl/react-google-maps": "^1.4.2",
     "class-variance-authority": "^0.7.1",
@@ -39,6 +41,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "babel-jest": "^29.7.0",
+    "contentful-cli": "^4.0.6",
     "dotenv": "^16.4.7",
     "eslint": "^9",
     "eslint-config-next": "15.1.2",

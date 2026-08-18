@@ -1,25 +1,25 @@
-import ArticleCard from "@/components/ArticleCard";
 import { Carousel } from "@/components/Carousel";
+import FeaturedReviews from "@/components/FeaturedReviews";
+import RenderBaselineWhileLoading from "@/components/RenderBaselineWhileLoading";
 import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
+import { getGreetingBanner } from "@/lib/getGreetingBanner";
+import { mapEntryExperiences } from "@/lib/experiences";
 import Link from "next/link";
-import {
-  EntryAnalytics,
-  Experience,
-  useNinetailed,
-} from "@ninetailed/experience.js-next";
+import { EntryAnalytics, Experience } from "@ninetailed/experience.js-next";
 
 export default function Home({ landingPageProps }) {
   const {
     carousel,
     landingPageTitle,
     featuredArticles,
+    featuredReviewsBlock,
     pageInformation,
     seoMetadata,
   } = landingPageProps.fields;
 
-  const { track } = useNinetailed();
+  const experiences = mapEntryExperiences(featuredReviewsBlock);
 
   return (
     <section className="w-full">
@@ -70,34 +70,20 @@ export default function Home({ landingPageProps }) {
         </div>
       </div>
 
-      <div className="w-full px-2 py-12">
-        <div className="flex items-baseline justify-between mb-6">
-          <span className="text-[12px] tracking-[0.12em] uppercase text-accent-700">
-            Featured reviews
-          </span>
-        </div>
-        <div className="grid gap-[22px] sm:grid-cols-2 lg:grid-cols-3">
-          {featuredArticles?.map((article) => (
-            <div
-              key={article.sys.id}
-              className="h-full"
-              onClick={() =>
-                track("article_click", {
-                  articleId: article.sys.id,
-                  articleTitle: article.fields.pageTitle,
-                })
-              }
-            >
-              <EntryAnalytics
-                id={article.sys.id}
-                component={ArticleCard}
-                article={article}
-                showRegion={false}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
+      {featuredReviewsBlock ? (
+        <Experience
+          {...featuredReviewsBlock.fields}
+          id={featuredReviewsBlock.sys.id}
+          component={FeaturedReviews}
+          experiences={experiences}
+          loadingComponent={RenderBaselineWhileLoading}
+          trackClicks
+        />
+      ) : (
+        // Falls back to the original field until the block is linked on the
+        // page entry. Clearing featuredReviewsBlock is also the rollback.
+        <FeaturedReviews reviews={featuredArticles} />
+      )}
 
       <div id="how-we-score">
         <hr className="h-[2px] bg-divider border-0" />
@@ -116,16 +102,22 @@ export async function getStaticProps({ locale }) {
 
   const landingPage = await client.getEntries({
     content_type: "page",
-    include: 5,
+    include: 10,
     "fields.slug[match]": "/",
     locale,
   });
 
   const landingPageProps = landingPage.items[0];
 
+  const banner = await getGreetingBanner(locale);
+
   return {
     props: {
       landingPageProps,
+      banner,
     },
+    // Without this, experiences attached in Contentful only appear after a
+    // redeploy.
+    revalidate: 60,
   };
 }

@@ -1,6 +1,7 @@
 import GoogleMap from "@/components/GoogleMap";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
+import { getGreetingBanner } from "@/lib/getGreetingBanner";
 import { availableLocales } from "@/lib/locales";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -8,7 +9,10 @@ import { OrbitProgress } from "react-loading-indicators";
 
 const AboutPage = ({ aboutPageProps }) => {
   const router = useRouter();
+  const [selectedCafe, setSelectedCafe] = useState(null);
 
+  // Below the hooks, not above them — returning early first would change the
+  // number of hooks called between renders, which React forbids.
   if (router.isFallback) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
@@ -28,8 +32,6 @@ const AboutPage = ({ aboutPageProps }) => {
     ...cafe.fields.storeLocation,
     title: cafe.fields.pageTitle,
   }));
-
-  const [selectedCafe, setSelectedCafe] = useState(null);
 
   const continentsCount = new Set(
     aboutPageProps.map((c) => c.fields.region).filter(Boolean)
@@ -139,15 +141,19 @@ export async function getStaticProps({ locale }) {
 
   const aboutPage = await client.getEntries({
     content_type: "article",
-    include: 5,
+    include: 10,
     locale,
   });
 
   const aboutPageProps = aboutPage.items;
 
+  const banner = await getGreetingBanner(locale);
+
   return {
     props: {
       aboutPageProps,
+      banner,
     },
+    revalidate: 60,
   };
 }

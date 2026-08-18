@@ -11,6 +11,7 @@ import {
 } from "@/lib/articles";
 import { formatDate } from "@/lib/formatDate";
 import { EntryAnalytics } from "@ninetailed/experience.js-next";
+import { getGreetingBanner } from "@/lib/getGreetingBanner";
 
 const ArticleDetailContent = ({ article }) => {
   const router = useRouter();
@@ -93,9 +94,12 @@ export async function getStaticProps({ locale, params }) {
     return { notFound: true };
   }
 
+  const banner = await getGreetingBanner(activeLocale);
+
   return {
     props: {
       article,
+      banner,
     },
     revalidate: 60,
   };

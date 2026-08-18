@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { client } from "@/lib/contentful";
+import { getGreetingBanner } from "@/lib/getGreetingBanner";
 import { OrbitProgress } from "react-loading-indicators";
 import React, { useState } from "react";
 import Image from "next/image";
@@ -197,7 +198,7 @@ export async function getStaticProps({ locale, params }) {
   const { reviewId } = params;
   const reviewPage = await client.getEntries({
     content_type: "article",
-    include: 5,
+    include: 10,
     "fields.slug[match]": reviewId,
     locale,
   });
@@ -208,10 +209,17 @@ export async function getStaticProps({ locale, params }) {
 
   const reviewPageProps = reviewPage.items[0];
 
+  const banner = await getGreetingBanner(locale);
+
   return {
     props: {
       reviewPageProps,
+      banner,
     },
+    // Review pages had no revalidate, so an edited review body — a merge tag
+    // added to it, say — would not appear until the next deploy. articles/[slug]
+    // already regenerates on this interval.
+    revalidate: 60,
   };
 }
 

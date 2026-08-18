@@ -4,6 +4,7 @@ import { getArticles } from "@/lib/articles";
 import { currentDateTime } from "@/lib/currentTime";
 import { EntryAnalytics, useNinetailed } from "@ninetailed/experience.js-next";
 import React from "react";
+import { getGreetingBanner } from "@/lib/getGreetingBanner";
 
 const ArticlesPage = ({ articles }) => {
   const { track } = useNinetailed();
@@ -64,9 +65,12 @@ export async function getStaticProps({ locale }) {
   const activeLocale = locale === "default" ? "en-GB" : locale;
   const articles = await getArticles({ locale: activeLocale });
 
+  const banner = await getGreetingBanner(activeLocale);
+
   return {
     props: {
       articles,
+      banner,
     },
     revalidate: 60,
   };
