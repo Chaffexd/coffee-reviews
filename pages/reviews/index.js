@@ -6,6 +6,7 @@ import { client } from "@/lib/contentful";
 import { currentDateTime } from "@/lib/currentTime";
 import { EntryAnalytics, useNinetailed } from "@ninetailed/experience.js-next";
 import { useRouter } from "next/router";
+import { OrbitProgress } from "react-loading-indicators";
 import React, { useEffect, useState } from "react";
 
 const ReviewsPage = ({ reviewsProps }) => {
@@ -16,19 +17,6 @@ const ReviewsPage = ({ reviewsProps }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 9;
   const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
-
-  if (router.isFallback) {
-    return (
-      <div className="w-full h-screen flex justify-center items-center">
-        <OrbitProgress
-          variant="track-disc"
-          color="#2b86b9"
-          size="medium"
-          text=""
-        />
-      </div>
-    );
-  }
 
   useEffect(() => {
     if (region) {
@@ -46,6 +34,21 @@ const ReviewsPage = ({ reviewsProps }) => {
     }
     setCurrentPage(1); // reset to first page on region change
   }, [region, reviewsProps]);
+
+  // Below the hooks, not above them — returning early first would change the
+  // number of hooks called between renders, which React forbids.
+  if (router.isFallback) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <OrbitProgress
+          variant="track-disc"
+          color="#2b86b9"
+          size="medium"
+          text=""
+        />
+      </div>
+    );
+  }
 
   const handleFilter = (selectedRegion) => {
     track("region_filter_applied", { region: selectedRegion });

@@ -8,7 +8,10 @@ import { OrbitProgress } from "react-loading-indicators";
 
 const AboutPage = ({ aboutPageProps }) => {
   const router = useRouter();
+  const [selectedCafe, setSelectedCafe] = useState(null);
 
+  // Below the hooks, not above them — returning early first would change the
+  // number of hooks called between renders, which React forbids.
   if (router.isFallback) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
@@ -28,8 +31,6 @@ const AboutPage = ({ aboutPageProps }) => {
     ...cafe.fields.storeLocation,
     title: cafe.fields.pageTitle,
   }));
-
-  const [selectedCafe, setSelectedCafe] = useState(null);
 
   const continentsCount = new Set(
     aboutPageProps.map((c) => c.fields.region).filter(Boolean)
