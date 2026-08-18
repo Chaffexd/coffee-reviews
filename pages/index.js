@@ -1,7 +1,6 @@
 import { Carousel } from "@/components/Carousel";
-import FeaturedReviews, {
-  RenderBaselineWhileLoading,
-} from "@/components/FeaturedReviews";
+import FeaturedReviews from "@/components/FeaturedReviews";
+import RenderBaselineWhileLoading from "@/components/RenderBaselineWhileLoading";
 import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";

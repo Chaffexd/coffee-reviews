@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { RenderBaselineWhileLoading } from "@/components/FeaturedReviews";
+import RenderBaselineWhileLoading from "@/components/RenderBaselineWhileLoading";
 
 jest.mock("@ninetailed/experience.js-next", () => ({
   useNinetailed: () => ({ track: jest.fn() }),

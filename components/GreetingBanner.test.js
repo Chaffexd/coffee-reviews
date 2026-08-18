@@ -1,11 +1,21 @@
 import { render, screen } from "@testing-library/react";
 import { BLOCKS, INLINES } from "@contentful/rich-text-types";
-import GreetingBanner from "@/components/GreetingBanner";
+import GreetingBanner, {
+  GreetingBannerContent,
+} from "@/components/GreetingBanner";
 
 const mockUseProfile = jest.fn();
 
+// <Experience> is exercised for real elsewhere; here it stands in as a
+// pass-through so these tests cover the banner's own behaviour.
 jest.mock("@ninetailed/experience.js-next", () => ({
   useProfile: () => mockUseProfile(),
+  Experience: ({ component: Component, experiences, loadingComponent, ...baseline }) => (
+    <>
+      <span data-testid="experience-count">{experiences.length}</span>
+      <Component {...baseline} />
+    </>
+  ),
 }));
 
 const greetingText = () => screen.getByTestId("greeting").textContent;
@@ -16,112 +26,118 @@ const inLondon = () =>
     profile: { location: { city: "London" } },
   });
 
-// "Pull up a chair in {City of the visitor}" as Contentful stores it.
-const bannerEntry = ({ enabled = true } = {}) => ({
-  fields: {
-    enabled,
-    message: {
-      nodeType: BLOCKS.DOCUMENT,
+const messageSaying = (lead) => ({
+  nodeType: BLOCKS.DOCUMENT,
+  data: {},
+  content: [
+    {
+      nodeType: BLOCKS.PARAGRAPH,
       data: {},
       content: [
+        { nodeType: "text", value: lead, marks: [], data: {} },
         {
-          nodeType: BLOCKS.PARAGRAPH,
-          data: {},
-          content: [
-            {
-              nodeType: "text",
-              value: "Pull up a chair in ",
-              marks: [],
-              data: {},
-            },
-            {
-              nodeType: INLINES.EMBEDDED_ENTRY,
-              data: {
-                target: {
-                  sys: {
-                    id: "tag-city",
-                    contentType: { sys: { id: "nt_mergetag" } },
-                  },
-                  fields: {
-                    nt_mergetag_id: "location.city",
-                    nt_fallback: "there",
-                  },
-                },
+          nodeType: INLINES.EMBEDDED_ENTRY,
+          data: {
+            target: {
+              sys: {
+                id: "tag-city",
+                contentType: { sys: { id: "nt_mergetag" } },
               },
-              content: [],
+              fields: {
+                nt_mergetag_id: "location.city",
+                nt_fallback: "there",
+              },
             },
-          ],
+          },
+          content: [],
         },
       ],
     },
-  },
+  ],
+});
+
+describe("GreetingBannerContent", () => {
+  it("renders the authored message, resolving its merge tags", () => {
+    inLondon();
+
+    render(
+      <GreetingBannerContent enabled message={messageSaying("Pull up a chair in ")} />,
+    );
+
+    expect(greetingText()).toBe("Pull up a chair in London");
+  });
+
+  it("uses the merge tag's own fallback while loading", () => {
+    mockUseProfile.mockReturnValue({ loading: true, profile: null });
+
+    render(
+      <GreetingBannerContent enabled message={messageSaying("Pull up a chair in ")} />,
+    );
+
+    expect(greetingText()).toBe("Pull up a chair in there");
+  });
+
+  it("renders nothing when the editor switches the banner off", () => {
+    inLondon();
+
+    const { container } = render(
+      <GreetingBannerContent enabled={false} message={messageSaying("Hi ")} />,
+    );
+
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it("falls back to the built-in copy without a message", () => {
+    inLondon();
+
+    render(<GreetingBannerContent />);
+
+    expect(greetingText()).toBe("Hello London, we're glad you are here");
+  });
 });
 
 describe("GreetingBanner", () => {
-  describe("without CMS content", () => {
-    it("greets the visitor by city once the profile resolves", () => {
-      inLondon();
-
-      render(<GreetingBanner />);
-
-      expect(greetingText()).toBe("Hello London, we're glad you are here");
-    });
-
-    it("keeps the sentence complete while the profile is still loading", () => {
-      // The SDK's own MergeTag renders null until the profile resolves, which
-      // would paint "Hello , we're glad..." on first load.
-      mockUseProfile.mockReturnValue({ loading: true, profile: null });
-
-      render(<GreetingBanner />);
-
-      expect(greetingText()).toBe("Hello there, we're glad you are here");
-    });
-
-    it("falls back when the profile resolves without a city", () => {
-      mockUseProfile.mockReturnValue({
-        loading: false,
-        profile: { location: { countryCode: "GB" } },
-      });
-
-      render(<GreetingBanner />);
-
-      expect(greetingText()).toBe("Hello there, we're glad you are here");
-    });
+  const bannerEntry = (nt_experiences) => ({
+    sys: { id: "banner-1" },
+    fields: {
+      internalName: "Site-wide greeting",
+      enabled: true,
+      message: messageSaying("Hello from "),
+      ...(nt_experiences ? { nt_experiences } : {}),
+    },
   });
 
-  describe("with CMS content", () => {
-    it("renders the authored message, resolving its merge tags", () => {
-      inLondon();
+  it("renders the built-in copy when no entry was fetched", () => {
+    inLondon();
 
-      render(<GreetingBanner banner={bannerEntry()} />);
+    render(<GreetingBanner />);
 
-      expect(greetingText()).toBe("Pull up a chair in London");
-    });
+    expect(greetingText()).toBe("Hello London, we're glad you are here");
+  });
 
-    it("uses the merge tag's own fallback while loading", () => {
-      mockUseProfile.mockReturnValue({ loading: true, profile: null });
+  it("renders the entry's message through Experience", () => {
+    inLondon();
 
-      render(<GreetingBanner banner={bannerEntry()} />);
+    render(<GreetingBanner banner={bannerEntry()} />);
 
-      expect(greetingText()).toBe("Pull up a chair in there");
-    });
+    expect(greetingText()).toBe("Hello from London");
+  });
 
-    it("renders nothing when the editor switches the banner off", () => {
-      inLondon();
+  it("passes no experiences when the entry has none attached", () => {
+    inLondon();
 
-      const { container } = render(
-        <GreetingBanner banner={bannerEntry({ enabled: false })} />,
-      );
+    render(<GreetingBanner banner={bannerEntry()} />);
 
-      expect(container).toBeEmptyDOMElement();
-    });
+    expect(screen.getByTestId("experience-count").textContent).toBe("0");
+  });
 
-    it("falls back to the built-in copy when the entry has no message", () => {
-      inLondon();
+  it("drops experiences that do not validate rather than throwing", () => {
+    // Unresolved links reach us as bare objects when something is unpublished.
+    inLondon();
 
-      render(<GreetingBanner banner={{ fields: { enabled: true } }} />);
+    render(<GreetingBanner banner={bannerEntry([{ sys: { id: "bare" } }])} />);
 
-      expect(greetingText()).toBe("Hello London, we're glad you are here");
-    });
+    expect(screen.getByTestId("experience-count").textContent).toBe("0");
+    expect(greetingText()).toBe("Hello from London");
   });
 });
