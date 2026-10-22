@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import { client } from "@/lib/contentful";
 import { getGreetingBanner } from "@/lib/getGreetingBanner";
+import { joinPath } from "@/lib/hreflang";
+import { resolveLocale } from "@/lib/locales";
 import { OrbitProgress } from "react-loading-indicators";
 import React, { useState } from "react";
 import Image from "next/image";
@@ -43,6 +45,8 @@ const ReviewDetailContent = ({ reviewPageProps }) => {
     articleContent,
     region,
     seoMetadata,
+    pagePath,
+    slug,
   } = reviewPageProps?.fields;
 
   return (
@@ -52,7 +56,7 @@ const ReviewDetailContent = ({ reviewPageProps }) => {
         description={seoMetadata.fields.description}
         image={`https:${seoMetadata.fields.image.fields.image.fields.file.url}`}
         keywords={seoMetadata.fields.keywords}
-        url={"https://coffee-reviews-delta.vercel.app" + router.asPath}
+        path={joinPath(pagePath.fields.slug, slug)}
         publishedTime={seoMetadata.sys.publishedAt}
         updatedTime={seoMetadata.sys.updatedAt}
       />
@@ -191,9 +195,7 @@ const ReviewDetailPage = ({ reviewPageProps }) => {
 export default ReviewDetailPage;
 
 export async function getStaticProps({ locale, params }) {
-  if (locale === "default") {
-    locale = "en-GB";
-  }
+  locale = resolveLocale(locale);
 
   const { reviewId } = params;
   const reviewPage = await client.getEntries({

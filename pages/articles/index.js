@@ -5,6 +5,7 @@ import { currentDateTime } from "@/lib/currentTime";
 import { EntryAnalytics, useNinetailed } from "@ninetailed/experience.js-next";
 import React from "react";
 import { getGreetingBanner } from "@/lib/getGreetingBanner";
+import { resolveLocale } from "@/lib/locales";
 
 const ArticlesPage = ({ articles }) => {
   const { track } = useNinetailed();
@@ -15,7 +16,7 @@ const ArticlesPage = ({ articles }) => {
         description="Browse every editorial article published on The Coffee Review."
         image="https://images.ctfassets.net/a3pray39687x/2m1ScDXR0vQSXMYT4kpTCH/545ca0d879fc2f50d1e4c1c56f3e870a/pexels-chevanon-324028.jpg"
         keywords="Coffee, Articles, Guides, Editorial"
-        url="https://coffee-reviews-delta.vercel.app/articles"
+        path="/articles"
         publishedTime={currentDateTime}
         updatedTime={currentDateTime}
       />
@@ -62,7 +63,7 @@ const ArticlesPage = ({ articles }) => {
 export default ArticlesPage;
 
 export async function getStaticProps({ locale }) {
-  const activeLocale = locale === "default" ? "en-GB" : locale;
+  const activeLocale = resolveLocale(locale);
   const articles = await getArticles({ locale: activeLocale });
 
   const banner = await getGreetingBanner(activeLocale);

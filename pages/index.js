@@ -5,6 +5,7 @@ import RichText from "@/components/RichText";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
 import { getGreetingBanner } from "@/lib/getGreetingBanner";
+import { resolveLocale } from "@/lib/locales";
 import { mapEntryExperiences } from "@/lib/experiences";
 import Link from "next/link";
 import { EntryAnalytics, Experience } from "@ninetailed/experience.js-next";
@@ -28,7 +29,7 @@ export default function Home({ landingPageProps }) {
         description={seoMetadata.fields.description}
         image={`https:${seoMetadata.fields.image.fields.image.fields.file.url}`}
         keywords={seoMetadata.fields.keywords}
-        url={"https://coffee-reviews-delta.vercel.app/"}
+        path="/"
         publishedTime={seoMetadata.sys.publishedAt}
         updatedTime={seoMetadata.sys.updatedAt}
       />
@@ -96,9 +97,7 @@ export default function Home({ landingPageProps }) {
 }
 
 export async function getStaticProps({ locale }) {
-  if (locale === "default") {
-    locale = "en-GB";
-  }
+  locale = resolveLocale(locale);
 
   const landingPage = await client.getEntries({
     content_type: "page",

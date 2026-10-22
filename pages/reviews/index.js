@@ -4,6 +4,7 @@ import RegionFilter from "@/components/RegionFilter";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
 import { getGreetingBanner } from "@/lib/getGreetingBanner";
+import { resolveLocale } from "@/lib/locales";
 import { currentDateTime } from "@/lib/currentTime";
 import { EntryAnalytics, useNinetailed } from "@ninetailed/experience.js-next";
 import { useRouter } from "next/router";
@@ -95,7 +96,7 @@ const ReviewsPage = ({ reviewsProps }) => {
         }
         image={`https://images.ctfassets.net/a3pray39687x/2m1ScDXR0vQSXMYT4kpTCH/545ca0d879fc2f50d1e4c1c56f3e870a/pexels-chevanon-324028.jpg`}
         keywords={"Coffee, Artisan, Beans, Brew"}
-        url={"https://coffee-reviews-delta.vercel.app/reviews"}
+        path="/reviews"
         publishedTime={currentDateTime}
         updatedTime={currentDateTime}
       />
@@ -156,9 +157,7 @@ const ReviewsPage = ({ reviewsProps }) => {
 export default ReviewsPage;
 
 export async function getStaticProps({ locale }) {
-  if (locale === "default") {
-    locale = "en-GB";
-  }
+  locale = resolveLocale(locale);
 
   const allReviews = await client.getEntries({
     content_type: "article",

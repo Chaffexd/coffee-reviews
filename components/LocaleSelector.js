@@ -1,11 +1,10 @@
-import { availableLocales } from "@/lib/locales";
+import { availableLocales, defaultLocale } from "@/lib/locales";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function LocaleDropdown() {
   const router = useRouter();
-  // default locale is en-GB
-  const [selectedLocale, setSelectedLocale] = useState("en-GB");
+  const [selectedLocale, setSelectedLocale] = useState(defaultLocale);
 
   const handleLocaleChange = (e) => {
     const newLocale = e.target.value;

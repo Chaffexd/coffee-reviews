@@ -2,7 +2,7 @@ import GoogleMap from "@/components/GoogleMap";
 import SeoData from "@/components/SeoData";
 import { client } from "@/lib/contentful";
 import { getGreetingBanner } from "@/lib/getGreetingBanner";
-import { availableLocales } from "@/lib/locales";
+import { availableLocales, resolveLocale } from "@/lib/locales";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { OrbitProgress } from "react-loading-indicators";
@@ -50,7 +50,7 @@ const AboutPage = ({ aboutPageProps }) => {
         }
         image={`https://images.ctfassets.net/a3pray39687x/2m1ScDXR0vQSXMYT4kpTCH/545ca0d879fc2f50d1e4c1c56f3e870a/pexels-chevanon-324028.jpg`}
         keywords={"Coffee, Artisan, Beans, Brew"}
-        url={"https://coffee-reviews-delta.vercel.app/about"}
+        path="/about"
         publishedTime={seoMetadata.sys.publishedAt}
         updatedTime={seoMetadata.sys.updatedAt}
       />
@@ -79,8 +79,8 @@ const AboutPage = ({ aboutPageProps }) => {
           hobby project that was solely for testing out how to properly follow
           one of many localisation patterns turned out to be a passion project
           about coffee instead. The whole idea is to document quality coffee
-          around the world based on what I visit and it&apos;s available in 7
-          locales in total, isn&apos;t that great?
+          around the world based on what I visit and it&apos;s available in{" "}
+          {availableLocales.length} locales in total, isn&apos;t that great?
         </p>
 
         <div className="border-y-2 border-divider py-8 my-10 grid grid-cols-2 sm:grid-cols-4 gap-6">
@@ -112,7 +112,7 @@ const AboutPage = ({ aboutPageProps }) => {
 
         <div>
           <h2 className="font-archivo font-extrabold text-[28px] mb-4">
-            Seven locales, one obsession.
+            {availableLocales.length} locales, one obsession.
           </h2>
           <div className="flex flex-wrap gap-3">
             {availableLocales.map((loc) => (
@@ -135,9 +135,7 @@ const AboutPage = ({ aboutPageProps }) => {
 export default AboutPage;
 
 export async function getStaticProps({ locale }) {
-  if (locale === "default") {
-    locale = "en-GB";
-  }
+  locale = resolveLocale(locale);
 
   const aboutPage = await client.getEntries({
     content_type: "article",
