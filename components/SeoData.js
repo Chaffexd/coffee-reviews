@@ -1,19 +1,34 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React from "react";
+import { hreflangAlternates, localizedUrl } from "@/lib/hreflang";
 
+// `path` is the page's path without a locale prefix, e.g. "/reviews/monmouth-coffee".
 const SeoData = ({
   title,
   description,
   image,
   keywords,
-  url,
+  path,
   publishedTime,
   updatedTime,
 }) => {
+  const { locale } = useRouter();
+  const url = localizedUrl(locale, path);
+
   return (
     <Head>
       {/* Primary Meta Tags */}
       <title>{title}</title>
+      <link rel="canonical" href={url} key="canonical" />
+      {hreflangAlternates(path).map(({ hreflang, href }) => (
+        <link
+          key={`hreflang-${hreflang}`}
+          rel="alternate"
+          hrefLang={hreflang}
+          href={href}
+        />
+      ))}
       <meta name="description" content={description} key="desc" />
       <meta name="keywords" content={keywords} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />

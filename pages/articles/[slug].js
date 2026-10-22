@@ -12,10 +12,12 @@ import {
 import { formatDate } from "@/lib/formatDate";
 import { EntryAnalytics } from "@ninetailed/experience.js-next";
 import { getGreetingBanner } from "@/lib/getGreetingBanner";
+import { joinPath } from "@/lib/hreflang";
+import { defaultLocale, resolveLocale } from "@/lib/locales";
 
 const ArticleDetailContent = ({ article }) => {
   const router = useRouter();
-  const { title, dateOfPublication, body, excerpt } = article.fields;
+  const { title, slug, dateOfPublication, body, excerpt } = article.fields;
 
   return (
     <article className="min-h-screen max-w-[760px] mx-auto px-4 py-10 sm:px-0">
@@ -24,7 +26,7 @@ const ArticleDetailContent = ({ article }) => {
         description={excerpt || extractArticlePreview(body)}
         image="https://images.ctfassets.net/a3pray39687x/2m1ScDXR0vQSXMYT4kpTCH/545ca0d879fc2f50d1e4c1c56f3e870a/pexels-chevanon-324028.jpg"
         keywords={`Coffee, Article, ${title}`}
-        url={`https://coffee-reviews-delta.vercel.app${router.asPath}`}
+        path={joinPath("articles", slug)}
         publishedTime={dateOfPublication}
         updatedTime={article.sys.updatedAt}
       />
@@ -84,7 +86,7 @@ const ArticleDetailPage = ({ article }) => {
 export default ArticleDetailPage;
 
 export async function getStaticProps({ locale, params }) {
-  const activeLocale = locale === "default" ? "en-GB" : locale;
+  const activeLocale = resolveLocale(locale);
   const article = await getArticleBySlug({
     locale: activeLocale,
     slug: params.slug,
@@ -106,7 +108,7 @@ export async function getStaticProps({ locale, params }) {
 }
 
 export async function getStaticPaths() {
-  const articles = await getArticles({ locale: "en-GB" });
+  const articles = await getArticles({ locale: defaultLocale });
 
   return {
     paths: articles.map((article) => ({

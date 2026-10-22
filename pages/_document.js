@@ -1,8 +1,9 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import { resolveLocale } from "@/lib/locales";
 
 export default function Document(props) {
   // This is responsible for actually updating the HTML lang in the html
-  const currentLocale = props.__NEXT_DATA__.locale || "en-GB";
+  const currentLocale = resolveLocale(props.__NEXT_DATA__.locale);
   return (
     <Html lang={currentLocale} >
       <Head />

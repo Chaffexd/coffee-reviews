@@ -1,16 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { availableLocales, defaultLocale, localesByCountry } from "@/lib/locales";
 
 const PUBLIC_FILE = /\.(.*)$/;
-
-const localesByCountry: Record<string, string> = {
-  US: "en-US",
-  GB: "en-GB",
-  TW: "zh-Hant-TW",
-  FR: "fr-FR",
-  DE: "de-DE",
-  JP: "ja-JP",
-  KR: "ko-KR",
-};
 
 export async function middleware(req: NextRequest) {
   if (
@@ -45,10 +36,12 @@ export async function middleware(req: NextRequest) {
       country = parts[parts.length - 1] ?? "GB";
     }
 
+    // A cookie can outlive its locale, e.g. after it is disabled in Contentful.
+    const cookieLocale = req.cookies.get("NEXT_LOCALE")?.value;
+    const isLive = availableLocales.some((l) => l.locale === cookieLocale);
+
     const locale =
-      req.cookies.get("NEXT_LOCALE")?.value ||
-      localesByCountry[country] ||
-      "en-GB";
+      (isLive && cookieLocale) || localesByCountry[country] || defaultLocale;
 
     const response = NextResponse.redirect(
       new URL(
