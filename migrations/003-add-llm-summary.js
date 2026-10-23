@@ -13,7 +13,7 @@ module.exports = function (migration) {
 
     contentType
       .createField("llmSummary")
-      .name("LLM summary")
+      .name("LLM Summary")
       .type("Symbol")
       .localized(true)
       .validations([{ size: { max: 200 } }]);
