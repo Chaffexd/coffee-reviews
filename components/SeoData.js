@@ -12,6 +12,8 @@ const SeoData = ({
   path,
   publishedTime,
   updatedTime,
+  // Pages with a Markdown copy (see lib/llms.js) advertise it to agents.
+  markdown = false,
 }) => {
   const { locale } = useRouter();
   const url = localizedUrl(locale, path);
@@ -29,6 +31,14 @@ const SeoData = ({
           href={href}
         />
       ))}
+      {markdown && (
+        <link
+          rel="alternate"
+          type="text/markdown"
+          href={`${url}.md`}
+          key="markdown"
+        />
+      )}
       <meta name="description" content={description} key="desc" />
       <meta name="keywords" content={keywords} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
