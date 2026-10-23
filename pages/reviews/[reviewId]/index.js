@@ -59,6 +59,7 @@ const ReviewDetailContent = ({ reviewPageProps }) => {
         path={joinPath(pagePath.fields.slug, slug)}
         publishedTime={seoMetadata.sys.publishedAt}
         updatedTime={seoMetadata.sys.updatedAt}
+        markdown
       />
 
       <Link

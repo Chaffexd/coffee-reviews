@@ -56,6 +56,28 @@ export default async function nextConfig() {
       // if this is false, the middleware will fall back to a locale that is either in the headers of the browser or cookies and defined in the accepted list above
       localeDetection: true
     },
-    trailingSlash: false
+    trailingSlash: false,
+    // llms.txt and the per-page Markdown copies are API routes. With
+    // locale: false a source is matched against the path including its
+    // locale, and an unprefixed URL arrives as /default/..., so one :locale
+    // rule covers /llms.txt and /de-DE/llms.txt alike. pickLocale turns
+    // "default" into Contentful's default locale. Rewrites in this array form
+    // run before dynamic routes, so /reviews/x.md never reaches
+    // pages/reviews/[reviewId].
+    async rewrites() {
+      return [
+        { source: "/:locale/llms.txt", destination: "/api/llms?locale=:locale", locale: false },
+        {
+          source: "/:locale/llms-full.txt",
+          destination: "/api/llms?locale=:locale&full=1",
+          locale: false,
+        },
+        {
+          source: "/:locale/:section(reviews|articles)/:slug.md",
+          destination: "/api/md/:section/:slug?locale=:locale",
+          locale: false,
+        },
+      ];
+    }
   };
 }

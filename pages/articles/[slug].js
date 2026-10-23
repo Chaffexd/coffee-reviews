@@ -29,6 +29,7 @@ const ArticleDetailContent = ({ article }) => {
         path={joinPath("articles", slug)}
         publishedTime={dateOfPublication}
         updatedTime={article.sys.updatedAt}
+        markdown
       />
       <Link
         href="/articles"
